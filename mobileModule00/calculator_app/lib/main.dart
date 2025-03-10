@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 void main() {
   runApp(const CalculatorApp());
@@ -152,8 +153,9 @@ class _ScreenState extends State<Screen> {
   }
 
   bool _isDuplicateOperator(String expression, String buttonText) {
-    if (['+', 'x', '/'].contains(buttonText) && expression.endsWith(buttonText)
-        || expression == '-' && buttonText == '-') {
+    if (['+', 'x', '/'].contains(buttonText) &&
+            expression.endsWith(buttonText) ||
+        expression == '-' && buttonText == '-') {
       return (true);
     }
     return (false);
@@ -264,15 +266,33 @@ class _ScreenState extends State<Screen> {
     _expression.text = expression;
   }
 
-  void	_calcExpression()
-  {
+  void _calcExpression() {
     String expression;
+    String result;
 
-    expression = _expression.text.replaceAll('0.+', '0+')
-                                 .replaceAll('0.-', '0-')
-                                 .replaceAll('0.x', '0x')
-                                 .replaceAll('0./', '/');
+    expression = _expression.text
+        .replaceAll('0.+', '0+')
+        .replaceAll('0.-', '0-')
+        .replaceAll('0.x', '0x')
+        .replaceAll('0./', '/');
+    if (expression.endsWith('0.')) {
+      expression = expression.substring(0, expression.length - 1);
+    }
     _expression.text = expression;
+    expression = expression.replaceAll('x', '*');
+    try {
+      GrammarParser p = GrammarParser();
+      Expression exp = p.parse(expression);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      result = eval.toString();
+      if (result.endsWith('.0')) {
+        result = result.substring(0, result.length - 2);
+      }
+    } catch (e) {
+      result = 'Error';
+    }
+    _result.text = result;
   }
 
   void _buttonAction(String buttonText) {
@@ -302,85 +322,84 @@ class _ScreenState extends State<Screen> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextField(
-              controller: _expression,
-              decoration: const InputDecoration(
-                enabled: false,
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(right: 16.0),
-              ),
-              textAlign: TextAlign.right,
-              style: const TextStyle(color: Colors.white, fontSize: 30),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          TextField(
+            controller: _expression,
+            decoration: const InputDecoration(
+              enabled: false,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(right: 16.0),
             ),
-            TextField(
-              controller: _result,
-              decoration: const InputDecoration(
-                enabled: false,
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(right: 16.0),
-              ),
-              textAlign: TextAlign.right,
-              style: const TextStyle(color: Colors.white, fontSize: 30),
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.ltr,
+            style: const TextStyle(color: Colors.white, fontSize: 30),
+          ),
+          TextField(
+            controller: _result,
+            decoration: const InputDecoration(
+              enabled: false,
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(right: 16.0),
             ),
-            const Spacer(),
-            Container(
-              color: Colors.blueGrey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CalculatorButton(buttonText: "7", action: _buttonAction),
-                  CalculatorButton(buttonText: "8", action: _buttonAction),
-                  CalculatorButton(buttonText: "9", action: _buttonAction),
-                  CalculatorButton(buttonText: "C", action: _buttonAction),
-                  CalculatorButton(buttonText: "AC", action: _buttonAction),
-                ],
-              ),
+            textAlign: TextAlign.right,
+            style: const TextStyle(color: Colors.white, fontSize: 30),
+          ),
+          const Spacer(),
+          Container(
+            color: Colors.blueGrey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CalculatorButton(buttonText: "7", action: _buttonAction),
+                CalculatorButton(buttonText: "8", action: _buttonAction),
+                CalculatorButton(buttonText: "9", action: _buttonAction),
+                CalculatorButton(buttonText: "C", action: _buttonAction),
+                CalculatorButton(buttonText: "AC", action: _buttonAction),
+              ],
             ),
-            Container(
-              color: Colors.blueGrey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CalculatorButton(buttonText: "4", action: _buttonAction),
-                  CalculatorButton(buttonText: "5", action: _buttonAction),
-                  CalculatorButton(buttonText: "6", action: _buttonAction),
-                  CalculatorButton(buttonText: "+", action: _buttonAction),
-                  CalculatorButton(buttonText: "-", action: _buttonAction),
-                ],
-              ),
+          ),
+          Container(
+            color: Colors.blueGrey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CalculatorButton(buttonText: "4", action: _buttonAction),
+                CalculatorButton(buttonText: "5", action: _buttonAction),
+                CalculatorButton(buttonText: "6", action: _buttonAction),
+                CalculatorButton(buttonText: "+", action: _buttonAction),
+                CalculatorButton(buttonText: "-", action: _buttonAction),
+              ],
             ),
-            Container(
-              color: Colors.blueGrey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CalculatorButton(buttonText: "1", action: _buttonAction),
-                  CalculatorButton(buttonText: "2", action: _buttonAction),
-                  CalculatorButton(buttonText: "3", action: _buttonAction),
-                  CalculatorButton(buttonText: "x", action: _buttonAction),
-                  CalculatorButton(buttonText: "/", action: _buttonAction),
-                ],
-              ),
+          ),
+          Container(
+            color: Colors.blueGrey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CalculatorButton(buttonText: "1", action: _buttonAction),
+                CalculatorButton(buttonText: "2", action: _buttonAction),
+                CalculatorButton(buttonText: "3", action: _buttonAction),
+                CalculatorButton(buttonText: "x", action: _buttonAction),
+                CalculatorButton(buttonText: "/", action: _buttonAction),
+              ],
             ),
-            Container(
-              color: Colors.blueGrey,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CalculatorButton(buttonText: "0", action: _buttonAction),
-                  CalculatorButton(buttonText: ".", action: _buttonAction),
-                  CalculatorButton(buttonText: "00", action: _buttonAction),
-                  CalculatorButton(buttonText: "=", action: _buttonAction),
-                  const Expanded(child: SizedBox()),
-                ],
-              ),
+          ),
+          Container(
+            color: Colors.blueGrey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CalculatorButton(buttonText: "0", action: _buttonAction),
+                CalculatorButton(buttonText: ".", action: _buttonAction),
+                CalculatorButton(buttonText: "00", action: _buttonAction),
+                CalculatorButton(buttonText: "=", action: _buttonAction),
+                const Expanded(child: SizedBox()),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
