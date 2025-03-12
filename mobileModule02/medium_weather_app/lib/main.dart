@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -10,7 +11,7 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Calculator App',
+      title: 'Weather App',
       theme: ThemeData(
         colorScheme: ColorScheme.dark(
           onPrimary: Colors.teal[900]!,
@@ -31,7 +32,7 @@ class Screen extends StatefulWidget {
 
 class CurrentlyView extends StatelessWidget {
   const CurrentlyView({super.key, required this.location});
-  final String location;
+  final Map<String, String?> location;
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +40,25 @@ class CurrentlyView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Currently',
-            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
-          ),
-          if (location.isNotEmpty)
+          if (location['error'] == null) ...[
             Text(
-              location,
-              style: TextStyle(fontSize: 30, height: 1),
+              'Currently',
+              style: TextStyle(
+                fontSize: 30,
+                height: 1.5,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (location['latitude'] != null && location['longitude'] != null)
+              Text(
+                '${location['latitude']} ${location['longitude']}',
+                style: TextStyle(fontSize: 30, height: 1),
+              ),
+          ] else
+            Text(
+              '${location['error']}',
+              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
+              textAlign: TextAlign.center,
             ),
         ],
       ),
@@ -56,7 +68,7 @@ class CurrentlyView extends StatelessWidget {
 
 class TodayView extends StatelessWidget {
   const TodayView({super.key, required this.location});
-  final String location;
+  final Map<String, String?> location;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +76,25 @@ class TodayView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Today',
-            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
-          ),
-          if (location.isNotEmpty)
+          if (location['error'] == null) ...[
             Text(
-              location,
-              style: TextStyle(fontSize: 30, height: 1),
+              'Today',
+              style: TextStyle(
+                fontSize: 30,
+                height: 1.5,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (location['latitude'] != null && location['longitude'] != null)
+              Text(
+                '${location['latitude']} ${location['longitude']}',
+                style: TextStyle(fontSize: 30, height: 1),
+              ),
+          ] else
+            Text(
+              '${location['error']}',
+              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
+              textAlign: TextAlign.center,
             ),
         ],
       ),
@@ -81,7 +104,7 @@ class TodayView extends StatelessWidget {
 
 class WeeklyView extends StatelessWidget {
   const WeeklyView({super.key, required this.location});
-  final String location;
+  final Map<String, String?> location;
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +112,25 @@ class WeeklyView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Weekly',
-            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
-          ),
-          if (location.isNotEmpty)
+          if (location['error'] == null) ...[
             Text(
-              location,
-              style: TextStyle(fontSize: 30, height: 1),
+              'Weekly',
+              style: TextStyle(
+                fontSize: 30,
+                height: 1.5,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            if (location['latitude'] != null && location['longitude'] != null)
+              Text(
+                '${location['latitude']} ${location['longitude']}',
+                style: TextStyle(fontSize: 30, height: 1),
+              ),
+          ] else
+            Text(
+              '${location['error']}',
+              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
+              textAlign: TextAlign.center,
             ),
         ],
       ),
@@ -105,13 +139,56 @@ class WeeklyView extends StatelessWidget {
 }
 
 class _ScreenState extends State<Screen> {
-  String _location = '';
+  Map<String, String?> location = {
+    'latitude': null,
+    'longitude': null,
+    'error': null,
+  };
 
-  void _updateLocation(String location) {
-    setState(() {
-      _location = location;
-    });
+  Future<Position> _getUserPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Geolocation is not available, please enable it.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        return Future.error(
+          'Geolocation is not available, location permissions are denied',
+        );
+      }
+    }
+    return await Geolocator.getCurrentPosition();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _setUserLocation();
+  }
+
+  void _setUserLocation() async {
+    try {
+      Position position = await _getUserPosition();
+      setState(() {
+        location['latitude'] = position.latitude.toString();
+        location['longitude'] = position.longitude.toString();
+        location['error'] = null;
+      });
+    } catch (e) {
+      setState(() {
+        location['latitude'] = null;
+        location['longitude'] = null;
+        location['error'] = e.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -126,8 +203,7 @@ class _ScreenState extends State<Screen> {
               hintStyle: TextStyle(color: Colors.grey),
               prefixIcon: Icon(Icons.search, color: Colors.grey),
             ),
-            onSubmitted: (value) => _updateLocation(value),
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.white, fontSize: 18),
           ),
           actions: [
             SizedBox(
@@ -141,16 +217,16 @@ class _ScreenState extends State<Screen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: const Icon(Icons.near_me),
-                onPressed: () => _updateLocation('Geolocation'),
+                onPressed: () => _setUserLocation(),
               ),
             ),
           ],
         ),
         body: TabBarView(
           children: [
-            CurrentlyView(location: _location),
-            TodayView(location: _location),
-            WeeklyView(location: _location),
+            CurrentlyView(location: location),
+            TodayView(location: location),
+            WeeklyView(location: location),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
