@@ -29,6 +29,81 @@ class Screen extends StatefulWidget {
   State<Screen> createState() => _ScreenState();
 }
 
+class CurrentlyPage extends StatelessWidget {
+  const CurrentlyPage({super.key, required this.location});
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Currently',
+            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+          ),
+          if (location.isNotEmpty)
+            Text(
+              location,
+              style: TextStyle(fontSize: 30, height: 1),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class TodayPage extends StatelessWidget {
+  const TodayPage({super.key, required this.location});
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Today',
+            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+          ),
+          if (location.isNotEmpty)
+            Text(
+              location,
+              style: TextStyle(fontSize: 30, height: 1),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class WeeklyPage extends StatelessWidget {
+  const WeeklyPage({super.key, required this.location});
+  final String location;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Weekly',
+            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+          ),
+          if (location.isNotEmpty)
+            Text(
+              location,
+              style: TextStyle(fontSize: 30, height: 1),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
@@ -45,7 +120,9 @@ class _ScreenState extends State<Screen> {
               prefixIcon: Icon(Icons.search, color: Colors.grey),
             ),
             onSubmitted: (String value) {
-              debugPrint('Form: $value');
+              if (value.isNotEmpty) {
+                debugPrint('Form: $value');
+              }
             },
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
@@ -70,9 +147,9 @@ class _ScreenState extends State<Screen> {
         ),
         body: TabBarView(
           children: [
-            Center(child: Text('Currently', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
-            Center(child: Text('Today', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
-            Center(child: Text('Weekly', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+            CurrentlyPage(location: ''),
+            TodayPage(location: ''),
+            WeeklyPage(location: ''),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
