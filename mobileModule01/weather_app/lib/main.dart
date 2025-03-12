@@ -70,12 +70,14 @@ class _ScreenState extends State<Screen> {
         ),
         body: TabBarView(
           children: [
-            Center(child: Text('Currently', style: TextStyle(fontSize: 30))),
-            Center(child: Text('Today', style: TextStyle(fontSize: 30))),
-            Center(child: Text('Weekly', style: TextStyle(fontSize: 30))),
+            Center(child: Text('Currently', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+            Center(child: Text('Today', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
+            Center(child: Text('Weekly', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
+          padding: EdgeInsets.zero,
+          color: Colors.grey[900],
           child: TabBar(
             indicatorColor: Colors.tealAccent,
             indicator: BoxDecoration(
@@ -83,13 +85,12 @@ class _ScreenState extends State<Screen> {
                 top: BorderSide(color: Colors.tealAccent, width: 2.0),
               ),
             ),
-            labelPadding: EdgeInsets.only(top: 8.0),
             labelColor: Colors.tealAccent,
             dividerColor: Colors.transparent,
             tabs: [
-              Tab(icon: Icon(Icons.thermostat, size: 20), text: 'Currently'),
-              Tab(icon: Icon(Icons.today, size: 20), text: 'Today'),
-              Tab(icon: Icon(Icons.date_range, size: 20), text: 'Weekly'),
+              Tab(icon: Icon(Icons.thermostat, size: 25), text: 'Currently'),
+              Tab(icon: Icon(Icons.today, size: 25), text: 'Today'),
+              Tab(icon: Icon(Icons.date_range, size: 25), text: 'Weekly'),
             ],
           ),
         ),
