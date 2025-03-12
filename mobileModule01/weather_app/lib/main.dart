@@ -29,8 +29,8 @@ class Screen extends StatefulWidget {
   State<Screen> createState() => _ScreenState();
 }
 
-class CurrentlyPage extends StatelessWidget {
-  const CurrentlyPage({super.key, required this.location});
+class CurrentlyView extends StatelessWidget {
+  const CurrentlyView({super.key, required this.location});
   final String location;
 
   @override
@@ -41,7 +41,7 @@ class CurrentlyPage extends StatelessWidget {
         children: [
           Text(
             'Currently',
-            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
           ),
           if (location.isNotEmpty)
             Text(
@@ -54,8 +54,8 @@ class CurrentlyPage extends StatelessWidget {
   }
 }
 
-class TodayPage extends StatelessWidget {
-  const TodayPage({super.key, required this.location});
+class TodayView extends StatelessWidget {
+  const TodayView({super.key, required this.location});
   final String location;
 
   @override
@@ -66,7 +66,7 @@ class TodayPage extends StatelessWidget {
         children: [
           Text(
             'Today',
-            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
           ),
           if (location.isNotEmpty)
             Text(
@@ -79,8 +79,8 @@ class TodayPage extends StatelessWidget {
   }
 }
 
-class WeeklyPage extends StatelessWidget {
-  const WeeklyPage({super.key, required this.location});
+class WeeklyView extends StatelessWidget {
+  const WeeklyView({super.key, required this.location});
   final String location;
 
   @override
@@ -91,7 +91,7 @@ class WeeklyPage extends StatelessWidget {
         children: [
           Text(
             'Weekly',
-            style: TextStyle(fontSize: 30, height: 1, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, height: 1.5, fontWeight: FontWeight.bold),
           ),
           if (location.isNotEmpty)
             Text(
@@ -105,6 +105,13 @@ class WeeklyPage extends StatelessWidget {
 }
 
 class _ScreenState extends State<Screen> {
+  String _location = '';
+
+  void _updateLocation(String location) {
+    setState(() {
+      _location = location;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -119,11 +126,7 @@ class _ScreenState extends State<Screen> {
               hintStyle: TextStyle(color: Colors.grey),
               prefixIcon: Icon(Icons.search, color: Colors.grey),
             ),
-            onSubmitted: (String value) {
-              if (value.isNotEmpty) {
-                debugPrint('Form: $value');
-              }
-            },
+            onSubmitted: (value) => _updateLocation(value),
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
           actions: [
@@ -138,18 +141,16 @@ class _ScreenState extends State<Screen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: const Icon(Icons.near_me),
-                onPressed: () {
-                  debugPrint('Geolocation clicked');
-                },
+                onPressed: () => _updateLocation('Geolocation'),
               ),
             ),
           ],
         ),
         body: TabBarView(
           children: [
-            CurrentlyPage(location: ''),
-            TodayPage(location: ''),
-            WeeklyPage(location: ''),
+            CurrentlyView(location: _location),
+            TodayView(location: _location),
+            WeeklyView(location: _location),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
