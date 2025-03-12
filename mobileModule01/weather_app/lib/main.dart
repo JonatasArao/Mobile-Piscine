@@ -37,8 +37,36 @@ class _ScreenState extends State<Screen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text("Weather"),
-          centerTitle: true,
+          title: TextField(
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Search Location...',
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(Icons.search, color: Colors.grey),
+            ),
+            onSubmitted: (String value) {
+              debugPrint('Form: $value');
+            },
+            style: const TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          actions: [
+            SizedBox(
+              width: 1,
+              height: 30,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.white),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: IconButton(
+                icon: const Icon(Icons.near_me),
+                onPressed: () {
+                  debugPrint('Geolocation clicked');
+                },
+              ),
+            ),
+          ],
         ),
         body: TabBarView(
           children: [
