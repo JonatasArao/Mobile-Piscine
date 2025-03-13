@@ -35,11 +35,15 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   late Future<Location> location;
+  late List<Location> searchList;
+  final TextEditingController search = TextEditingController();
 
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
     location = Location.fetchGeolocation();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -47,14 +51,87 @@ class _ScreenState extends State<Screen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: TextField(
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Search Location...',
-              hintStyle: TextStyle(color: Colors.grey),
-              prefixIcon: Icon(Icons.search, color: Colors.grey),
-            ),
-            style: const TextStyle(color: Colors.white, fontSize: 18),
+          title: Autocomplete<Location>(
+            optionsBuilder: (TextEditingValue textEditingValue) async {
+              if (textEditingValue.text.length < 2) {
+                return const Iterable<Location>.empty();
+              }
+              try {
+                searchList = await Location.fetchLocations(
+                  textEditingValue.text,
+                );
+                return searchList.where((location) => location.name.isNotEmpty);
+              } catch (e) {
+                return const Iterable<Location>.empty();
+              }
+            },
+            displayStringForOption: (Location option) {
+              String displayString = option.name;
+              return displayString;
+            },
+            optionsViewBuilder: (
+              BuildContext context,
+              AutocompleteOnSelected<Location> onSelected,
+              Iterable<Location> options,
+            ) {
+              return Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  color: Colors.grey[800],
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Location option = options.elementAt(index);
+                      return ListTile(
+                        title: Text(
+                            '${option.name}${option.region?.isNotEmpty == true ? ' ${option.region}' : ''}${option.country?.isNotEmpty == true ? ', ${option.country}' : ''}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          onSelected(option);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+            fieldViewBuilder: (
+              BuildContext context,
+              search,
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted,
+            ) {
+              return TextField(
+                controller: search,
+                focusNode: focusNode,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search Location...',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(Icons.search, color: Colors.grey),
+                ),
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+                onSubmitted: (value) {
+                  Location newLocation = searchList.first;
+                  setState(() {
+                    if (searchList.isNotEmpty && value == newLocation.name) {
+                      location = Future.value(newLocation);
+                    } else if (value.isNotEmpty) {
+                      location = Future.error(
+                        "Could not find any result for the supplied address.",
+                      );
+                    }
+                  });
+                },
+              );
+            },
+            onSelected: (Location selection) {
+              setState(() {
+                location = Future.value(selection);
+              });
+            },
           ),
           actions: [
             SizedBox(

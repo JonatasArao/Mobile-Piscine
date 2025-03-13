@@ -5,14 +5,14 @@ import 'dart:convert';
 class Location {
   final double _latitude;
   final double _longitude;
-  final String? _name;
+  final String _name;
   final String? _region;
   final String? _country;
 
   const Location._({
     required double latitude,
     required double longitude,
-    String? name,
+    required String name,
     String? region,
     String? country,
   }) : _latitude = latitude,
@@ -25,15 +25,16 @@ class Location {
     return Location._(
       latitude: position.latitude,
       longitude: position.longitude,
+      name: 'Geolocation',
     );
   }
 
   factory Location._fromJson(Map<String, dynamic> json) {
     try {
-    return Location._(
+      return Location._(
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
-        name: json['name'] as String?,
+        name: json['name'] as String,
         region: json['admin1'] as String?,
         country: json['country'] as String?,
       );
@@ -44,7 +45,7 @@ class Location {
 
   double get latitude => _latitude;
   double get longitude => _longitude;
-  String? get name => _name;
+  String get name => _name;
   String? get region => _region;
   String? get country => _country;
 
@@ -84,9 +85,12 @@ class Location {
     );
 
     if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      Map<String, dynamic> jsonResponse =
+          jsonDecode(response.body) as Map<String, dynamic>;
       List<dynamic> jsonList = jsonResponse['results'] as List<dynamic>;
-      return jsonList.map((json) => Location._fromJson(json as Map<String, dynamic>)).toList();
+      return jsonList
+          .map((json) => Location._fromJson(json as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception('Failed to load locations');
     }

@@ -19,6 +19,7 @@ class TodayView extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          Text(location.name, style: TextStyle(fontSize: 30, height: 1)),
           Text(
             '${location.latitude} ${location.longitude}',
             style: TextStyle(fontSize: 30, height: 1),
