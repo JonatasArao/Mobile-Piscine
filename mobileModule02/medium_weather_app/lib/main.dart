@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medium_weather_app/location.dart';
+import 'models/location.dart';
+import 'views/currently.dart';
+import 'views/today.dart';
+import 'views/weekly.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -28,90 +31,6 @@ class Screen extends StatefulWidget {
 
   @override
   State<Screen> createState() => _ScreenState();
-}
-
-class CurrentlyView extends StatelessWidget {
-  const CurrentlyView({super.key, required this.location});
-  final Location location;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Currently',
-            style: TextStyle(
-              fontSize: 30,
-              height: 1.5,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-            Text(
-              '${location.latitude} ${location.longitude}',
-              style: TextStyle(fontSize: 30, height: 1),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class TodayView extends StatelessWidget {
-  const TodayView({super.key, required this.location});
-  final Location location;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Today',
-            style: TextStyle(
-              fontSize: 30,
-              height: 1.5,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            '${location.latitude} ${location.longitude}',
-            style: TextStyle(fontSize: 30, height: 1),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class WeeklyView extends StatelessWidget {
-  const WeeklyView({super.key, required this.location});
-  final Location location;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Weekly',
-            style: TextStyle(
-              fontSize: 30,
-              height: 1.5,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            '${location.latitude} ${location.longitude}',
-            style: TextStyle(fontSize: 30, height: 1),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _ScreenState extends State<Screen> {
