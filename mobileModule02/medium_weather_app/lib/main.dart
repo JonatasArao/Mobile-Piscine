@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:medium_weather_app/location.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -32,7 +32,7 @@ class Screen extends StatefulWidget {
 
 class CurrentlyView extends StatelessWidget {
   const CurrentlyView({super.key, required this.location});
-  final Map<String, String?> location;
+  final Location location;
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +40,17 @@ class CurrentlyView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (location['error'] == null) ...[
-            Text(
-              'Currently',
-              style: TextStyle(
-                fontSize: 30,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            'Currently',
+            style: TextStyle(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
             ),
-            if (location['latitude'] != null && location['longitude'] != null)
-              Text(
-                '${location['latitude']} ${location['longitude']}',
-                style: TextStyle(fontSize: 30, height: 1),
-              ),
-          ] else
+          ),
             Text(
-              '${location['error']}',
-              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
-              textAlign: TextAlign.center,
+              '${location.latitude} ${location.longitude}',
+              style: TextStyle(fontSize: 30, height: 1),
             ),
         ],
       ),
@@ -68,7 +60,7 @@ class CurrentlyView extends StatelessWidget {
 
 class TodayView extends StatelessWidget {
   const TodayView({super.key, required this.location});
-  final Map<String, String?> location;
+  final Location location;
 
   @override
   Widget build(BuildContext context) {
@@ -76,26 +68,18 @@ class TodayView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (location['error'] == null) ...[
-            Text(
-              'Today',
-              style: TextStyle(
-                fontSize: 30,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            'Today',
+            style: TextStyle(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
             ),
-            if (location['latitude'] != null && location['longitude'] != null)
-              Text(
-                '${location['latitude']} ${location['longitude']}',
-                style: TextStyle(fontSize: 30, height: 1),
-              ),
-          ] else
-            Text(
-              '${location['error']}',
-              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
+          ),
+          Text(
+            '${location.latitude} ${location.longitude}',
+            style: TextStyle(fontSize: 30, height: 1),
+          ),
         ],
       ),
     );
@@ -104,7 +88,7 @@ class TodayView extends StatelessWidget {
 
 class WeeklyView extends StatelessWidget {
   const WeeklyView({super.key, required this.location});
-  final Map<String, String?> location;
+  final Location location;
 
   @override
   Widget build(BuildContext context) {
@@ -112,26 +96,18 @@ class WeeklyView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (location['error'] == null) ...[
-            Text(
-              'Weekly',
-              style: TextStyle(
-                fontSize: 30,
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            'Weekly',
+            style: TextStyle(
+              fontSize: 30,
+              height: 1.5,
+              fontWeight: FontWeight.bold,
             ),
-            if (location['latitude'] != null && location['longitude'] != null)
-              Text(
-                '${location['latitude']} ${location['longitude']}',
-                style: TextStyle(fontSize: 30, height: 1),
-              ),
-          ] else
-            Text(
-              '${location['error']}',
-              style: TextStyle(fontSize: 18, height: 1, color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
+          ),
+          Text(
+            '${location.latitude} ${location.longitude}',
+            style: TextStyle(fontSize: 30, height: 1),
+          ),
         ],
       ),
     );
@@ -139,56 +115,12 @@ class WeeklyView extends StatelessWidget {
 }
 
 class _ScreenState extends State<Screen> {
-  Map<String, String?> location = {
-    'latitude': null,
-    'longitude': null,
-    'error': null,
-  };
+  late Future<Location> location;
 
-  Future<Position> _getUserPosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Geolocation is not available, please enable it.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        return Future.error(
-          'Geolocation is not available, location permissions are denied',
-        );
-      }
-    }
-    return await Geolocator.getCurrentPosition();
-  }
-
-  @override
-  void initState() {
+  @override void initState() {
     super.initState();
-    _setUserLocation();
+    location = Location.fetchGeolocation();
   }
-
-  void _setUserLocation() async {
-    try {
-      Position position = await _getUserPosition();
-      setState(() {
-        location['latitude'] = position.latitude.toString();
-        location['longitude'] = position.longitude.toString();
-        location['error'] = null;
-      });
-    } catch (e) {
-      setState(() {
-        location['latitude'] = null;
-        location['longitude'] = null;
-        location['error'] = e.toString();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -217,17 +149,49 @@ class _ScreenState extends State<Screen> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: const Icon(Icons.near_me),
-                onPressed: () => _setUserLocation(),
+                onPressed: () {
+                  setState(() {
+                    location = Location.fetchGeolocation();
+                  });
+                },
               ),
             ),
           ],
         ),
-        body: TabBarView(
-          children: [
-            CurrentlyView(location: location),
-            TodayView(location: location),
-            WeeklyView(location: location),
-          ],
+        body: FutureBuilder<Location>(
+          future: location,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(color: Colors.tealAccent),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    '${snapshot.error}',
+                    style: TextStyle(color: Colors.red, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            } else if (snapshot.hasData) {
+              final location = snapshot.data!;
+              return Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: TabBarView(
+                  children: [
+                    CurrentlyView(location: location),
+                    TodayView(location: location),
+                    WeeklyView(location: location),
+                  ],
+                ),
+              );
+            } else {
+              return Center(child: Text('Unknown error occurred'));
+            }
+          },
         ),
         bottomNavigationBar: BottomAppBar(
           padding: EdgeInsets.zero,
