@@ -18,6 +18,7 @@ class WeatherApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.dark(
           onPrimary: Colors.teal[900]!,
+          primary: Colors.tealAccent,
           brightness: Brightness.dark,
         ),
       ),
@@ -36,6 +37,7 @@ class Screen extends StatefulWidget {
 class _ScreenState extends State<Screen> {
   late Future<Location> location;
   late List<Location> searchList;
+  late String searchError;
   final TextEditingController search = TextEditingController();
 
   @override
@@ -62,6 +64,8 @@ class _ScreenState extends State<Screen> {
                 );
                 return searchList.where((location) => location.name.isNotEmpty);
               } catch (e) {
+                searchError = e.toString().replaceFirst('Exception: ', '');
+                searchList = [];
                 return const Iterable<Location>.empty();
               }
             },
@@ -74,26 +78,44 @@ class _ScreenState extends State<Screen> {
               AutocompleteOnSelected<Location> onSelected,
               Iterable<Location> options,
             ) {
-              return Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  color: Colors.grey[800],
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: options.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Location option = options.elementAt(index);
-                      return ListTile(
-                        title: Text(
-                            '${option.name}${option.region?.isNotEmpty == true ? ' ${option.region}' : ''}${option.country?.isNotEmpty == true ? ', ${option.country}' : ''}',
-                          style: const TextStyle(color: Colors.white),
+              return Container(
+                color: Theme.of(context).colorScheme.surface,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: options.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final Location option = options.elementAt(index);
+                    return Container(
+                      decoration: const BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.tealAccent)),
+                      ),
+                      child: ListTile(
+                        title: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: option.name,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              if (option.region?.isNotEmpty == true)
+                                TextSpan(
+                                  text: ' ${option.region}',
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              if (option.country?.isNotEmpty == true)
+                                TextSpan(
+                                  text: ', ${option.country}',
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                            ],
+                          ),
                         ),
                         onTap: () {
                           onSelected(option);
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               );
             },
@@ -114,14 +136,13 @@ class _ScreenState extends State<Screen> {
                 ),
                 style: const TextStyle(color: Colors.white, fontSize: 18),
                 onSubmitted: (value) {
-                  Location newLocation = searchList.first;
                   setState(() {
-                    if (searchList.isNotEmpty && value == newLocation.name) {
-                      location = Future.value(newLocation);
-                    } else if (value.isNotEmpty) {
-                      location = Future.error(
-                        "Could not find any result for the supplied address.",
-                      );
+                    onFieldSubmitted();
+                    if (searchList.isNotEmpty) {
+                      location = Future.value(searchList.first);
+                      search.text = searchList.first.name;
+                    } else {
+                      location = Future.error(searchError);
                     }
                   });
                 },

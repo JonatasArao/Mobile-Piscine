@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 class Location {
   final double _latitude;
@@ -80,19 +81,30 @@ class Location {
   }
 
   static Future<List<Location>> fetchLocations(String name) async {
-    final response = await http.get(
-      Uri.parse('https://geocoding-api.open-meteo.com/v1/search?name=$name'),
-    );
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse =
-          jsonDecode(response.body) as Map<String, dynamic>;
-      List<dynamic> jsonList = jsonResponse['results'] as List<dynamic>;
-      return jsonList
-          .map((json) => Location._fromJson(json as Map<String, dynamic>))
-          .toList();
-    } else {
-      throw Exception('Failed to load locations');
+    try {
+      final response = await http.get(
+        Uri.parse('https://geocoding-api.open-meteo.com/v1/search?name=$name'),
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse =
+            jsonDecode(response.body) as Map<String, dynamic>;
+        if (jsonResponse['results'] != null) {
+          List<dynamic> jsonList = jsonResponse['results'] as List<dynamic>;
+          return jsonList
+              .map((json) => Location._fromJson(json as Map<String, dynamic>))
+              .toList();
+        } else {
+          throw Exception(
+            'Could not find any result for the supplied address.',
+          );
+        }
+      } else {
+        throw Exception('Failed to load locations');
+      }
+    } on SocketException {
+      throw Exception(
+      'The service connection is lost, please check your internet connection or try again later',
+      );
     }
   }
 }
