@@ -3,6 +3,7 @@ import 'models/location.dart';
 import 'views/currently.dart';
 import 'views/today.dart';
 import 'views/weekly.dart';
+import 'widgets/location_search.dart';
 
 void main() {
   runApp(const WeatherApp());
@@ -36,19 +37,12 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   late Future<Location> location;
-  late Iterable<Location> searchList;
-  TextEditingController searchController = TextEditingController();
+  final GlobalKey<LocationSearchState> _locationSearchKey = GlobalKey<LocationSearchState>();
 
   @override
   void initState() {
     super.initState();
     location = Location.fetchGeolocation();
-  }
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -58,112 +52,16 @@ class _ScreenState extends State<Screen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Autocomplete<Location>(
-            optionsBuilder: (TextEditingValue textEditingValue) async {
-              if (textEditingValue.text.isEmpty) {
-                return const Iterable<Location>.empty();
-              }
-              try {
-                searchList = await Location.fetchLocations(
-                  textEditingValue.text,
-                );
-              } catch (e) {
-                searchList = const Iterable<Location>.empty();
-              }
-              return searchList;
-            },
-            displayStringForOption: (Location option) {
-              String displayString = option.name;
-              return displayString;
-            },
-            optionsViewBuilder: (
-              BuildContext context,
-              AutocompleteOnSelected<Location> onSelected,
-              Iterable<Location> options,
-            ) {
-              return Container(
-                color: Theme.of(context).colorScheme.surface,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: options.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final Location option = options.elementAt(index);
-                    return Container(
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: Colors.tealAccent),
-                        ),
-                      ),
-                      child: ListTile(
-                        title: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: option.name,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              if (option.region?.isNotEmpty == true)
-                                TextSpan(
-                                  text: ' ${option.region}',
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              if (option.country?.isNotEmpty == true)
-                                TextSpan(
-                                  text: ', ${option.country}',
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          onSelected(option);
-                          FocusScope.of(context).unfocus();
-                        },
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-            fieldViewBuilder: (
-              BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode,
-              VoidCallback onFieldSubmitted,
-            ) {
-              searchController = textEditingController;
-              return TextField(
-                controller: textEditingController,
-                focusNode: focusNode,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Search Location...',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
-                ),
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-                onSubmitted: (value) async {
-                  if (value.isEmpty) return;
-                  if (searchList.isNotEmpty) {
-                    onFieldSubmitted();
-                  } else {
-                    try {
-                      searchList = await Location.fetchLocations(value);
-                      setState(() {
-                        location = Future.value(searchList.first);
-                      });
-                    } catch (e) {
-                      setState(() {
-                        location = Future.error(e.toString());
-                      });
-                    }
-                  }
-                },
-              );
-            },
-            onSelected: (Location selection) {
+          title: LocationSearch(
+            key: _locationSearchKey,
+            onSearchSuccess: (Location result) {
               setState(() {
-                location = Future.value(selection);
+                location = Future.value(result);
+              });
+            },
+            onSearchError: (String error) {
+              setState(() {
+                location = Future.error(error);
               });
             },
           ),
@@ -182,7 +80,7 @@ class _ScreenState extends State<Screen> {
                 onPressed: () {
                   setState(() {
                     location = Location.fetchGeolocation();
-                    searchController.clear();
+                    _locationSearchKey.currentState?.clear();
                   });
                 },
               ),
