@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'exceptions.dart';
 import 'dart:io';
 
 class Location {
@@ -26,7 +27,7 @@ class Location {
     return Location._(
       latitude: position.latitude,
       longitude: position.longitude,
-      name: 'Geolocation',
+      name: 'Your Location',
     );
   }
 
@@ -94,17 +95,13 @@ class Location {
               .map((json) => Location._fromJson(json as Map<String, dynamic>))
               .toList();
         } else {
-          throw Exception(
-            'Could not find any result for the supplied address.',
-          );
+          throw SearchException();
         }
       } else {
-        throw Exception('Failed to load locations');
+        throw APIConnectionException();
       }
     } on SocketException {
-      throw Exception(
-      'The service connection is lost, please check your internet connection or try again later',
-      );
+      throw APIConnectionException();
     }
   }
 }

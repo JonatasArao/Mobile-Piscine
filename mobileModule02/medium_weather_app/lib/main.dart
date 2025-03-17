@@ -36,14 +36,19 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   late Future<Location> location;
-  late List<Location> searchList;
-  late String searchError;
-  final TextEditingController search = TextEditingController();
+  late Iterable<Location> searchList;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     location = Location.fetchGeolocation();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -55,19 +60,17 @@ class _ScreenState extends State<Screen> {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Autocomplete<Location>(
             optionsBuilder: (TextEditingValue textEditingValue) async {
-              if (textEditingValue.text.length < 2) {
+              if (textEditingValue.text.isEmpty) {
                 return const Iterable<Location>.empty();
               }
               try {
                 searchList = await Location.fetchLocations(
                   textEditingValue.text,
                 );
-                return searchList.where((location) => location.name.isNotEmpty);
               } catch (e) {
-                searchError = e.toString().replaceFirst('Exception: ', '');
-                searchList = [];
-                return const Iterable<Location>.empty();
+                searchList = const Iterable<Location>.empty();
               }
+              return searchList;
             },
             displayStringForOption: (Location option) {
               String displayString = option.name;
@@ -87,7 +90,9 @@ class _ScreenState extends State<Screen> {
                     final Location option = options.elementAt(index);
                     return Container(
                       decoration: const BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.tealAccent)),
+                        border: Border(
+                          bottom: BorderSide(color: Colors.tealAccent),
+                        ),
                       ),
                       child: ListTile(
                         title: RichText(
@@ -112,6 +117,7 @@ class _ScreenState extends State<Screen> {
                         ),
                         onTap: () {
                           onSelected(option);
+                          FocusScope.of(context).unfocus();
                         },
                       ),
                     );
@@ -121,12 +127,13 @@ class _ScreenState extends State<Screen> {
             },
             fieldViewBuilder: (
               BuildContext context,
-              search,
+              TextEditingController textEditingController,
               FocusNode focusNode,
               VoidCallback onFieldSubmitted,
             ) {
+              searchController = textEditingController;
               return TextField(
-                controller: search,
+                controller: textEditingController,
                 focusNode: focusNode,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -135,16 +142,22 @@ class _ScreenState extends State<Screen> {
                   prefixIcon: Icon(Icons.search, color: Colors.grey),
                 ),
                 style: const TextStyle(color: Colors.white, fontSize: 18),
-                onSubmitted: (value) {
-                  setState(() {
+                onSubmitted: (value) async {
+                  if (value.isEmpty) return;
+                  if (searchList.isNotEmpty) {
                     onFieldSubmitted();
-                    if (searchList.isNotEmpty) {
-                      location = Future.value(searchList.first);
-                      search.text = searchList.first.name;
-                    } else {
-                      location = Future.error(searchError);
+                  } else {
+                    try {
+                      searchList = await Location.fetchLocations(value);
+                      setState(() {
+                        location = Future.value(searchList.first);
+                      });
+                    } catch (e) {
+                      setState(() {
+                        location = Future.error(e.toString());
+                      });
                     }
-                  });
+                  }
                 },
               );
             },
@@ -169,6 +182,7 @@ class _ScreenState extends State<Screen> {
                 onPressed: () {
                   setState(() {
                     location = Location.fetchGeolocation();
+                    searchController.clear();
                   });
                 },
               ),
