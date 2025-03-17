@@ -1,7 +1,7 @@
 class SearchException implements Exception {
   @override
   String toString() {
-    return 'Could not find any result for the supplied address.';
+    return 'Could not find any result for the supplied address or coordinates.';
   }
 }
 

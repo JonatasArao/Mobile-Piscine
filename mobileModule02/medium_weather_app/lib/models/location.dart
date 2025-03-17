@@ -41,7 +41,7 @@ class Location {
         country: json['country'] as String?,
       );
     } catch (e) {
-      throw FormatException('Failed to load location: $json');
+      throw APIConnectionException();
     }
   }
 
