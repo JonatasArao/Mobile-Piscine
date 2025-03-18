@@ -65,12 +65,12 @@ class LocationSearchState extends State<LocationSearch> {
                           text: option.name,
                           style: const TextStyle(color: Colors.white),
                         ),
-                        if (option.region?.isNotEmpty == true)
+                        if (option.region.isNotEmpty == true)
                           TextSpan(
                             text: ' ${option.region}',
                             style: const TextStyle(color: Colors.grey),
                           ),
-                        if (option.country?.isNotEmpty == true)
+                        if (option.country.isNotEmpty == true)
                           TextSpan(
                             text: ', ${option.country}',
                             style: const TextStyle(color: Colors.grey),

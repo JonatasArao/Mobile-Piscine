@@ -16,50 +16,100 @@ class WeeklyView extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-            Padding(
+          Padding(
             padding: const EdgeInsets.all(2),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-              style: TextStyle(fontSize: 20, color: Colors.white),
-              text: location.name,
-              children: [
-                if (location.region.isNotEmpty)
-                TextSpan(text: "\n${location.region}"),
-                if (location.country.isNotEmpty)
-                TextSpan(text: "\n${location.country}"),
-              ],
+                style: TextStyle(fontSize: 20, color: Colors.white),
+                text: location.name,
+                children: [
+                  if (location.region.isNotEmpty)
+                    TextSpan(text: "\n${location.region}"),
+                  if (location.country.isNotEmpty)
+                    TextSpan(text: "\n${location.country}"),
+                ],
               ),
             ),
-            ),
+          ),
           Expanded(
-            child: ListView.builder(
-              itemCount: weekWeather.length,
-              itemBuilder: (context, index) {
-                final weather = weekWeather[index];
-                return Wrap(
-                  alignment: WrapAlignment.spaceAround,
-                  children: [
-                    Text(weather.date, style: TextStyle(fontSize: 15, color: Colors.white), textAlign: TextAlign.center),
-                    Text(
-                      weather.maxTemperature,
-                      style: TextStyle(fontSize: 15, color: Colors.white), textAlign: TextAlign.center,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(
+                  columnSpacing: 20,
+                  columns: const [
+                    DataColumn(
+                      label: Text(
+                        'Date',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    Text(
-                      weather.minTemperature,
-                      style: TextStyle(fontSize: 15, color: Colors.white), textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        'Max Temp.',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    Text(
-                      weather.windSpeed,
-                      style: TextStyle(fontSize: 15, color: Colors.white), textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        'Min Temp.',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    Text(
-                      weather.description,
-                      style: TextStyle(fontSize: 15, color: Colors.white), textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        'Wind Speed',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Description',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
-                );
-              },
+                  rows:
+                      weekWeather.map((weather) {
+                        return DataRow(
+                          cells: [
+                            DataCell(
+                              Text(
+                                weather.date,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.maxTemperature,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.minTemperature,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.windSpeed,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.description,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                ),
+              ),
             ),
           ),
         ],

@@ -16,42 +16,75 @@ class TodayView extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-            Padding(
+          Padding(
             padding: const EdgeInsets.all(2),
             child: RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-              style: TextStyle(fontSize: 20, color: Colors.white),
-              text: location.name,
-              children: [
-                if (location.region.isNotEmpty)
-                TextSpan(text: "\n${location.region}"),
-                if (location.country.isNotEmpty)
-                TextSpan(text: "\n${location.country}"),
-              ],
+                style: TextStyle(fontSize: 20, color: Colors.white),
+                text: location.name,
+                children: [
+                  if (location.region.isNotEmpty)
+                    TextSpan(text: "\n${location.region}"),
+                  if (location.country.isNotEmpty)
+                    TextSpan(text: "\n${location.country}"),
+                ],
               ),
             ),
-            ),
+          ),
           Expanded(
-            child: ListView.builder(
-              itemCount: todayWeather.length,
-              itemBuilder: (context, index) {
-                final weather = todayWeather[index];
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(weather.time, style: TextStyle(fontSize: 18, color: Colors.white), textAlign: TextAlign.center),
-                    Text(
-                      weather.maxTemperature,
-                      style: TextStyle(fontSize: 18, color: Colors.white), textAlign: TextAlign.center,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(
+                      label: Text(
+                        'Time',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
-                    Text(
-                      weather.windSpeed,
-                      style: TextStyle(fontSize: 18, color: Colors.white), textAlign: TextAlign.center,
+                    DataColumn(
+                      label: Text(
+                        'Temperature',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Wind Speed',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
-                );
-              },
+                  rows:
+                      todayWeather.map((weather) {
+                        return DataRow(
+                          cells: [
+                            DataCell(
+                              Text(
+                                weather.time,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.minTemperature,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                weather.windSpeed,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                ),
+              ),
             ),
           ),
         ],

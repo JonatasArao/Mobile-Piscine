@@ -66,9 +66,8 @@ class Report {
     final List<dynamic> temperatures = hourlyData['temperature_2m'];
     final List<dynamic> windSpeeds = hourlyData['wind_speed_10m'];
     final List<dynamic> weatherCodes = hourlyData['weather_code'];
-
     return List.generate(
-      times.length,
+      24,
       (i) => Weather.fromJson({
         'time': times[i] as String,
         'windSpeed': windSpeeds[i] as double,
