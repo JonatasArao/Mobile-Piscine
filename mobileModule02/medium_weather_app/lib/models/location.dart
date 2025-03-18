@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'exceptions.dart';
@@ -8,26 +9,28 @@ class Location {
   final double _latitude;
   final double _longitude;
   final String _name;
-  final String? _region;
-  final String? _country;
+  final String _region;
+  final String _country;
 
   const Location._({
     required double latitude,
     required double longitude,
     required String name,
-    String? region,
-    String? country,
+    required String region,
+    required String country,
   }) : _latitude = latitude,
        _longitude = longitude,
        _name = name,
        _region = region,
        _country = country;
 
-  factory Location._fromGeolocation(Position position) {
+  factory Location._fromGeolocation(Position position, Placemark placemark) {
     return Location._(
       latitude: position.latitude,
       longitude: position.longitude,
-      name: 'Your Location',
+      name: placemark.subAdministrativeArea ?? 'Unknown',
+      region: placemark.administrativeArea ?? 'Unknown',
+      country: placemark.country ?? 'Unknown',
     );
   }
 
@@ -37,8 +40,8 @@ class Location {
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
         name: json['name'] as String,
-        region: json['admin1'] as String?,
-        country: json['country'] as String?,
+        region: json['admin1'] as String,
+        country: json['country'] as String,
       );
     } catch (e) {
       throw APIConnectionException();
@@ -48,8 +51,8 @@ class Location {
   double get latitude => _latitude;
   double get longitude => _longitude;
   String get name => _name;
-  String get region => _region ?? '';
-  String get country => _country ?? '';
+  String get region => _region;
+  String get country => _country;
 
   static Future<Location> fetchGeolocation() async {
     Location location;
@@ -74,7 +77,8 @@ class Location {
           throw 'Geolocation request timed out. Please try again.';
         },
       );
-      location = Location._fromGeolocation(position);
+      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      location = Location._fromGeolocation(position, placemarks.first);
       return (location);
     } catch (e) {
       throw e.toString();
