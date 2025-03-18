@@ -18,7 +18,7 @@ class LocationSearchState extends State<LocationSearch> {
   late Iterable<Location> searchList;
   TextEditingController _searchController = TextEditingController();
 
-  void clear(){
+  void clear() {
     _searchController.text = '';
     _searchController.clear();
   }
@@ -55,9 +55,7 @@ class LocationSearchState extends State<LocationSearch> {
               final Location option = options.elementAt(index);
               return Container(
                 decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Colors.tealAccent),
-                  ),
+                  border: Border(bottom: BorderSide(color: Colors.tealAccent)),
                 ),
                 child: ListTile(
                   title: RichText(

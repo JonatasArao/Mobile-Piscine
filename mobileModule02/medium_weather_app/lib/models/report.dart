@@ -20,9 +20,15 @@ class Report {
 
   factory Report._fromJson(Location location, Map<String, dynamic> json) {
     try {
-      final currentWeather = _parseCurrentWeather(json['current']);
-      final todayWeather = _parseTodayWeather(json['hourly']);
-      final weekWeather = _parseWeekWeather(json['daily']);
+      final currentWeather = _parseCurrentWeather(
+        json['current'],
+        json['current_units'],
+      );
+      final todayWeather = _parseTodayWeather(
+        json['hourly'],
+        json['hourly_units'],
+      );
+      final weekWeather = _parseWeekWeather(json['daily'], json['daily_units']);
 
       return Report._(
         location: location,
@@ -35,22 +41,31 @@ class Report {
     }
   }
 
-  static Weather _parseCurrentWeather(Map<String, dynamic> currentData) {
+  static Weather _parseCurrentWeather(
+    Map<String, dynamic> currentData,
+    Map<String, dynamic> format,
+  ) {
     final currentJson = {
       'time': currentData['time'] as String,
       'windSpeed': currentData['wind_speed_10m'] as double,
       'maxTemperature': currentData['temperature_2m'] as double,
       'minTemperature': currentData['temperature_2m'] as double,
-      'wmoCode': currentData['weather_code'] as int,
+      'weatherCode': currentData['weather_code'] as int,
+      'maxTemperatureUnit': format['temperature_2m'] as String,
+      'minTemperatureUnit': format['temperature_2m'] as String,
+      'windSpeedUnit': format['wind_speed_10m'] as String,
     };
     return Weather.fromJson(currentJson);
   }
 
-  static List<Weather> _parseTodayWeather(Map<String, dynamic> hourlyData) {
+  static List<Weather> _parseTodayWeather(
+    Map<String, dynamic> hourlyData,
+    Map<String, dynamic> format,
+  ) {
     final List<dynamic> times = hourlyData['time'];
     final List<dynamic> temperatures = hourlyData['temperature_2m'];
     final List<dynamic> windSpeeds = hourlyData['wind_speed_10m'];
-    final List<dynamic> wmoCodes = hourlyData['weather_code'];
+    final List<dynamic> weatherCodes = hourlyData['weather_code'];
 
     return List.generate(
       times.length,
@@ -59,17 +74,23 @@ class Report {
         'windSpeed': windSpeeds[i] as double,
         'maxTemperature': temperatures[i] as double,
         'minTemperature': temperatures[i] as double,
-        'wmoCode': wmoCodes[i] as int,
+        'weatherCode': weatherCodes[i] as int,
+        'maxTemperatureUnit': format['temperature_2m'] as String,
+        'minTemperatureUnit': format['temperature_2m'] as String,
+        'windSpeedUnit': format['wind_speed_10m'] as String,
       }),
     );
   }
 
-  static List<Weather> _parseWeekWeather(Map<String, dynamic> dailyData) {
+  static List<Weather> _parseWeekWeather(
+    Map<String, dynamic> dailyData,
+    Map<String, dynamic> format,
+  ) {
     final List<dynamic> times = dailyData['time'];
     final List<dynamic> maxTemps = dailyData['temperature_2m_max'];
     final List<dynamic> minTemps = dailyData['temperature_2m_min'];
     final List<dynamic> windSpeeds = dailyData['wind_speed_10m_max'];
-    final List<dynamic> wmoCodes = dailyData['weather_code'];
+    final List<dynamic> weatherCodes = dailyData['weather_code'];
 
     return List.generate(
       times.length,
@@ -78,7 +99,10 @@ class Report {
         'windSpeed': windSpeeds[i] as double,
         'maxTemperature': maxTemps[i] as double,
         'minTemperature': minTemps[i] as double,
-        'wmoCode': wmoCodes[i] as int,
+        'weatherCode': weatherCodes[i] as int,
+        'maxTemperatureUnit': format['temperature_2m_max'] as String,
+        'minTemperatureUnit': format['temperature_2m_min'] as String,
+        'windSpeedUnit': format['wind_speed_10m_max'] as String,
       }),
     );
   }

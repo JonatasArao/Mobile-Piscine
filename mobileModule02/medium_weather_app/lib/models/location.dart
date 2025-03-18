@@ -48,8 +48,8 @@ class Location {
   double get latitude => _latitude;
   double get longitude => _longitude;
   String get name => _name;
-  String? get region => _region;
-  String? get country => _country;
+  String get region => _region ?? '';
+  String get country => _country ?? '';
 
   static Future<Location> fetchGeolocation() async {
     Location location;
