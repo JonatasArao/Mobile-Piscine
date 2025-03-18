@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'models/location.dart';
+import 'models/report.dart';
 import 'views/currently.dart';
 import 'views/today.dart';
 import 'views/weekly.dart';
@@ -36,13 +37,16 @@ class Screen extends StatefulWidget {
 }
 
 class _ScreenState extends State<Screen> {
-  late Future<Location> location;
-  final GlobalKey<LocationSearchState> _locationSearchKey = GlobalKey<LocationSearchState>();
+  late Future<Report> report;
+  final GlobalKey<LocationSearchState> _locationSearchKey =
+      GlobalKey<LocationSearchState>();
 
   @override
   void initState() {
     super.initState();
-    location = Location.fetchGeolocation();
+    report = Location.fetchGeolocation().then(
+      (location) => Report.fetchReport(location),
+    );
   }
 
   @override
@@ -56,12 +60,12 @@ class _ScreenState extends State<Screen> {
             key: _locationSearchKey,
             onSearchSuccess: (Location result) {
               setState(() {
-                location = Future.value(result);
+                report = Report.fetchReport(result);
               });
             },
             onSearchError: (String error) {
               setState(() {
-                location = Future.error(error);
+                report = Future.error(error);
               });
             },
           ),
@@ -79,7 +83,9 @@ class _ScreenState extends State<Screen> {
                 icon: const Icon(Icons.near_me),
                 onPressed: () {
                   setState(() {
-                    location = Location.fetchGeolocation();
+                    report = Location.fetchGeolocation().then(
+                      (location) => Report.fetchReport(location),
+                    );
                     _locationSearchKey.currentState?.clear();
                   });
                 },
@@ -87,8 +93,8 @@ class _ScreenState extends State<Screen> {
             ),
           ],
         ),
-        body: FutureBuilder<Location>(
-          future: location,
+        body: FutureBuilder<Report>(
+          future: report,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -106,14 +112,23 @@ class _ScreenState extends State<Screen> {
                 ),
               );
             } else if (snapshot.hasData) {
-              final location = snapshot.data!;
+              final report = snapshot.data!;
               return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: TabBarView(
                   children: [
-                    CurrentlyView(location: location),
-                    TodayView(location: location),
-                    WeeklyView(location: location),
+                    CurrentlyView(
+                      location: report.location,
+                      currentWeather: report.currentWeather,
+                    ),
+                    TodayView(
+                      location: report.location,
+                      todayWeather: report.todayWeather,
+                    ),
+                    WeeklyView(
+                      location: report.location,
+                      weekWeather: report.weekWeather,
+                    ),
                   ],
                 ),
               );

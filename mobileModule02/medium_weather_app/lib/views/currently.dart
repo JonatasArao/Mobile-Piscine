@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import '../models/location.dart';
+import '../models/weather.dart';
 
 class CurrentlyView extends StatelessWidget {
-  const CurrentlyView({super.key, required this.location});
+  const CurrentlyView({
+    super.key,
+    required this.location,
+    required this.currentWeather,
+  });
   final Location location;
+  final Weather currentWeather;
 
   @override
   Widget build(BuildContext context) {
@@ -11,18 +17,20 @@ class CurrentlyView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Currently',
-            style: TextStyle(
-              fontSize: 30,
-              height: 1.5,
-              fontWeight: FontWeight.bold,
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: TextStyle(fontSize: 25, color: Colors.white),
+              text: location.name,
+              children: [
+                if (location.region.isNotEmpty)
+                  TextSpan(text: "\n${location.region}"),
+                if (location.country.isNotEmpty)
+                  TextSpan(text: "\n${location.country}"),
+                TextSpan(text: "\n${currentWeather.maxTemperature}"),
+                TextSpan(text: "\n${currentWeather.windSpeed}"),
+              ],
             ),
-          ),
-          Text(location.name, style: TextStyle(fontSize: 30, height: 1)),
-          Text(
-            '${location.latitude} ${location.longitude}',
-            style: TextStyle(fontSize: 30, height: 1),
           ),
         ],
       ),
