@@ -93,7 +93,7 @@ class _TodayViewState extends State<TodayView> {
                               drawHorizontalLine: true,
                               drawVerticalLine: true,
                               horizontalInterval: 2,
-                              verticalInterval: 3600000 * 3,
+                              verticalInterval: 3,
                               getDrawingHorizontalLine: (value) {
                                 return FlLine(
                                   color: Colors.grey,
@@ -132,21 +132,23 @@ class _TodayViewState extends State<TodayView> {
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  interval: 3600000 * 3,
+                                  interval: 3,
                                   getTitlesWidget: (value, meta) {
-                                    DateTime time =
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                          value.toInt(),
-                                        );
-                                    String timeString =
-                                        '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
-                                    return Text(
-                                      timeString,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                    );
+                                    int index = value.toInt();
+                                    if (index >= 0 &&
+                                        index < todayWeather.length) {
+                                      final weather = todayWeather.elementAt(
+                                        index,
+                                      );
+                                      return Text(
+                                        weather.time,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
                                   },
                                 ),
                               ),
@@ -158,7 +160,7 @@ class _TodayViewState extends State<TodayView> {
                                 ) {
                                   final weather = todayWeather.elementAt(index);
                                   return FlSpot(
-                                    weather.timestamp.toDouble(),
+                                    index.toDouble(),
                                     weather.maxTemperatureValue,
                                   );
                                 }),
@@ -173,7 +175,7 @@ class _TodayViewState extends State<TodayView> {
                                             radius: 2,
                                             color: Colors.white,
                                             strokeWidth: 2,
-                                            strokeColor: Colors.teal
+                                            strokeColor: Colors.teal,
                                           ),
                                 ),
                               ),
@@ -183,7 +185,7 @@ class _TodayViewState extends State<TodayView> {
                                 getTooltipItems: (touchedSpots) {
                                   return touchedSpots.map((barSpot) {
                                     return LineTooltipItem(
-                                      '${barSpot.y.toStringAsFixed(1)}${todayWeather.first.maxTemperatureUnit}',
+                                      '${barSpot.y}${todayWeather.first.maxTemperatureUnit}',
                                       const TextStyle(
                                         color: Colors.white,
                                         fontSize: 12,
