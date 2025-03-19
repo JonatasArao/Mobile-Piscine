@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
 
@@ -23,6 +24,7 @@ class _TodayViewState extends State<TodayView> {
     _scrollController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final location = widget.location;
@@ -50,9 +52,161 @@ class _TodayViewState extends State<TodayView> {
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
               Container(
-                decoration: BoxDecoration(color: Colors.black54),
+                decoration: BoxDecoration(
+                  color: Colors.black38,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Today temperatures",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        height: 200,
+                        child: LineChart(
+                          LineChartData(
+                            minY:
+                                todayWeather
+                                    .map(
+                                      (weather) => weather.maxTemperatureValue,
+                                    )
+                                    .reduce((a, b) => a < b ? a : b)
+                                    .ceilToDouble() -
+                                2,
+                            maxY:
+                                todayWeather
+                                    .map(
+                                      (weather) => weather.maxTemperatureValue,
+                                    )
+                                    .reduce((a, b) => a > b ? a : b)
+                                    .floorToDouble() +
+                                2,
+                            gridData: FlGridData(
+                              show: true,
+                              drawHorizontalLine: true,
+                              drawVerticalLine: true,
+                              horizontalInterval: 2,
+                              verticalInterval: 3600000 * 3,
+                              getDrawingHorizontalLine: (value) {
+                                return FlLine(
+                                  color: Colors.grey,
+                                  strokeWidth: 1,
+                                );
+                              },
+                              getDrawingVerticalLine: (value) {
+                                return FlLine(
+                                  color: Colors.grey,
+                                  strokeWidth: 1,
+                                );
+                              },
+                            ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 35,
+                                  getTitlesWidget:
+                                      (value, meta) => Text(
+                                        "${value.toInt()}${todayWeather.first.maxTemperatureUnit}",
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                ),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  interval: 3600000 * 3,
+                                  getTitlesWidget: (value, meta) {
+                                    DateTime time =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                          value.toInt(),
+                                        );
+                                    String timeString =
+                                        '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+                                    return Text(
+                                      timeString,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: List.generate(todayWeather.length, (
+                                  index,
+                                ) {
+                                  final weather = todayWeather.elementAt(index);
+                                  return FlSpot(
+                                    weather.timestamp.toDouble(),
+                                    weather.maxTemperatureValue,
+                                  );
+                                }),
+                                isCurved: true,
+                                barWidth: 2,
+                                color: Colors.teal,
+                                dotData: FlDotData(
+                                  show: true,
+                                  getDotPainter:
+                                      (spot, percent, barData, index) =>
+                                          FlDotCirclePainter(
+                                            radius: 2,
+                                            color: Colors.white,
+                                            strokeWidth: 2,
+                                            strokeColor: Colors.teal
+                                          ),
+                                ),
+                              ),
+                            ],
+                            lineTouchData: LineTouchData(
+                              touchTooltipData: LineTouchTooltipData(
+                                getTooltipItems: (touchedSpots) {
+                                  return touchedSpots.map((barSpot) {
+                                    return LineTooltipItem(
+                                      '${barSpot.y.toStringAsFixed(1)}${todayWeather.first.maxTemperatureUnit}',
+                                      const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    );
+                                  }).toList();
+                                },
+                              ),
+                            ),
+                            borderData: FlBorderData(
+                              show: true,
+                              border: Border.all(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(color: Colors.black38),
                 height: 175,
                 width: MediaQuery.of(context).size.width,
                 child: Scrollbar(

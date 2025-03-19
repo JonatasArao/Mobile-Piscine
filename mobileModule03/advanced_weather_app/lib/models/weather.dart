@@ -97,6 +97,11 @@ class Weather {
   String get windSpeed => '$_windSpeed $_windSpeedUnit';
   String get maxTemperature => '$_maxTemperature$_maxTemperatureUnit';
   String get minTemperature => '$_minTemperature$_minTemperatureUnit';
+  String get maxTemperatureUnit => _maxTemperatureUnit;
+  String get minTemperatureUnit => _minTemperatureUnit;
+  double get maxTemperatureValue => _maxTemperature;
+  double get minTemperatureValue => _minTemperature;
+  int get timestamp => _time.millisecondsSinceEpoch;
   String get description => _weatherDescriptions[_weatherCode] ?? "Unknown";
   IconData get icon => _weatherIcons[_weatherCode] ?? Icons.help_outline;
 
