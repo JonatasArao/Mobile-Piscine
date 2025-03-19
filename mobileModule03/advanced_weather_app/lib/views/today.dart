@@ -72,22 +72,8 @@ class _TodayViewState extends State<TodayView> {
                         height: 200,
                         child: LineChart(
                           LineChartData(
-                            minY:
-                                todayWeather
-                                    .map(
-                                      (weather) => weather.maxTemperatureValue,
-                                    )
-                                    .reduce((a, b) => a < b ? a : b)
-                                    .ceilToDouble() -
-                                2,
-                            maxY:
-                                todayWeather
-                                    .map(
-                                      (weather) => weather.maxTemperatureValue,
-                                    )
-                                    .reduce((a, b) => a > b ? a : b)
-                                    .floorToDouble() +
-                                2,
+                            minY: Weather.getMinTemperatureFromList(todayWeather).ceilToDouble() - 2,
+                            maxY: Weather.getMaxTemperatureFromList(todayWeather).floorToDouble() + 2,
                             gridData: FlGridData(
                               show: true,
                               drawHorizontalLine: true,
@@ -164,7 +150,7 @@ class _TodayViewState extends State<TodayView> {
                                     weather.maxTemperatureValue,
                                   );
                                 }),
-                                isCurved: true,
+                                isCurved: false,
                                 barWidth: 2,
                                 color: Colors.teal,
                                 dotData: FlDotData(

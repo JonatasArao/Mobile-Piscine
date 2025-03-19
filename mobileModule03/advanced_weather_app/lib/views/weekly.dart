@@ -74,34 +74,8 @@ class _WeeklyViewState extends State<WeeklyView> {
                           LineChartData(
                             minX: 0,
                             maxX: weekWeather.length.toDouble(),
-                            minY:
-                                weekWeather
-                                    .map(
-                                      (weather) => weather.minTemperatureValue,
-                                    )
-                                    .reduce((a, b) {
-                                      if (a < b) {
-                                        return a;
-                                      } else {
-                                        return b;
-                                      }
-                                    })
-                                    .ceilToDouble() -
-                                2,
-                            maxY:
-                                weekWeather
-                                    .map(
-                                      (weather) => weather.maxTemperatureValue,
-                                    )
-                                    .reduce((a, b) {
-                                      if (a > b) {
-                                        return a;
-                                      } else {
-                                        return b;
-                                      }
-                                    })
-                                    .floorToDouble() +
-                                2,
+                            minY: Weather.getMinTemperatureFromList(weekWeather).ceilToDouble() - 2,
+                            maxY: Weather.getMaxTemperatureFromList(weekWeather).floorToDouble() + 2,
                             gridData: FlGridData(
                               show: true,
                               drawHorizontalLine: true,

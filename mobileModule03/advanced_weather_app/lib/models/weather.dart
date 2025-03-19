@@ -120,4 +120,29 @@ class Weather {
       throw FormatException('Failed to load weather: $json');
     }
   }
+  static double getMaxTemperatureFromList(List<Weather> weatherList) {
+    if (weatherList.isEmpty) {
+      throw ArgumentError('The weather list cannot be empty.');
+    }
+    return weatherList.map((weather) => weather.maxTemperatureValue).reduce((a, b) {
+      if (a > b) {
+        return a;
+      } else {
+        return b;
+      }
+    });
+  }
+
+  static double getMinTemperatureFromList(List<Weather> weatherList) {
+    if (weatherList.isEmpty) {
+      throw ArgumentError('The weather list cannot be empty.');
+    }
+    return weatherList.map((weather) => weather.minTemperatureValue).reduce((a, b) {
+      if (a < b) {
+        return a;
+      } else {
+        return b;
+      }
+    });
+  }
 }
