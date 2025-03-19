@@ -11,6 +11,7 @@ class Location {
   final String _name;
   final String _region;
   final String _country;
+  final String _countryCode;
 
   const Location._({
     required double latitude,
@@ -18,11 +19,13 @@ class Location {
     required String name,
     required String region,
     required String country,
+    required String countryCode,
   }) : _latitude = latitude,
        _longitude = longitude,
        _name = name,
        _region = region,
-       _country = country;
+       _country = country,
+       _countryCode = countryCode;
 
   factory Location._fromGeolocation(Position position, Placemark placemark) {
     return Location._(
@@ -31,6 +34,7 @@ class Location {
       name: placemark.subAdministrativeArea ?? 'Unknown',
       region: placemark.administrativeArea ?? 'Unknown',
       country: placemark.country ?? 'Unknown',
+      countryCode: placemark.isoCountryCode ?? 'Unknown',
     );
   }
 
@@ -40,8 +44,9 @@ class Location {
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
         name: json['name'] as String,
-        region: json['admin1'] as String,
+        region: json['admin1'] ?? '',
         country: json['country'] as String,
+        countryCode: json['country_code'] as String,
       );
     } catch (e) {
       throw APIConnectionException();
@@ -53,6 +58,13 @@ class Location {
   String get name => _name;
   String get region => _region;
   String get country => _country;
+  String get flag {
+    return _countryCode
+        .toUpperCase()
+        .codeUnits
+        .map((codeUnit) => String.fromCharCode(codeUnit + 127397))
+        .join();
+  }
 
   static Future<Location> fetchGeolocation() async {
     Location location;

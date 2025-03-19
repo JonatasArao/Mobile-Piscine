@@ -58,6 +58,7 @@ class LocationSearchState extends State<LocationSearch> {
                   border: Border(bottom: BorderSide(color: Colors.tealAccent)),
                 ),
                 child: ListTile(
+                  leading: Text(option.flag, style: TextStyle(fontSize: 18),),
                   title: RichText(
                     text: TextSpan(
                       children: [
