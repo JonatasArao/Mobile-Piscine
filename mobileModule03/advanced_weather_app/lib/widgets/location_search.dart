@@ -31,7 +31,7 @@ class LocationSearchState extends State<LocationSearch> {
           return const Iterable<Location>.empty();
         }
         try {
-          searchList = await Location.fetchLocations(textEditingValue.text);
+          searchList = await Location.fetchLocations(textEditingValue.text, 5);
         } catch (e) {
           searchList = const Iterable<Location>.empty();
         }
@@ -64,17 +64,17 @@ class LocationSearchState extends State<LocationSearch> {
                       children: [
                         TextSpan(
                           text: option.name,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         if (option.region.isNotEmpty == true)
                           TextSpan(
                             text: ' ${option.region}',
-                            style: const TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                         if (option.country.isNotEmpty == true)
                           TextSpan(
                             text: ', ${option.country}',
-                            style: const TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                       ],
                     ),
@@ -112,7 +112,7 @@ class LocationSearchState extends State<LocationSearch> {
               onFieldSubmitted();
             } else {
               try {
-                searchList = await Location.fetchLocations(value);
+                searchList = await Location.fetchLocations(value, 1);
                 widget.onSearchSuccess(searchList.first);
               } catch (e) {
                 widget.onSearchError(e.toString());

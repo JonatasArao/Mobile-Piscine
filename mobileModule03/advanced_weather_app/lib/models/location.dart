@@ -97,10 +97,10 @@ class Location {
     }
   }
 
-  static Future<List<Location>> fetchLocations(String name) async {
+  static Future<List<Location>> fetchLocations(String name, int count) async {
     try {
       final response = await http.get(
-        Uri.parse('https://geocoding-api.open-meteo.com/v1/search?name=$name'),
+        Uri.parse('https://geocoding-api.open-meteo.com/v1/search?name=$name&count=$count'),
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse =
