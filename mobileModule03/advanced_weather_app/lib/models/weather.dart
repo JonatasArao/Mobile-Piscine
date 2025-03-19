@@ -60,17 +60,17 @@ class Weather {
   };
 
   static const Map<int, IconData> _weatherIcons = {
-    0: Icons.wb_sunny, // Clear sky
+    0: Icons.sunny, // Clear sky
     1: Icons.wb_sunny, // Mainly clear
-    2: Icons.cloud, // Partly cloudy
+    2: Icons.cloud_queue, // Partly cloudy
     3: Icons.cloud, // Overcast
     45: Icons.foggy, // Fog
     48: Icons.foggy, // Depositing rime fog
     51: Icons.grain, // Light drizzle
     53: Icons.grain, // Moderate drizzle
     55: Icons.grain, // Dense drizzle
-    56: Icons.ac_unit, // Light freezing drizzle
-    57: Icons.ac_unit, // Dense freezing drizzle
+    56: Icons.snowing, // Light freezing drizzle
+    57: Icons.snowing, // Dense freezing drizzle
     61: Icons.umbrella, // Slight rain
     63: Icons.umbrella, // Moderate rain
     65: Icons.umbrella, // Heavy rain
@@ -80,14 +80,14 @@ class Weather {
     73: Icons.ac_unit, // Moderate snow fall
     75: Icons.ac_unit, // Heavy snow fall
     77: Icons.ac_unit, // Snow grains
-    80: Icons.shower, // Slight rain showers
-    81: Icons.shower, // Moderate rain showers
-    82: Icons.shower, // Violent rain showers
+    80: Icons.cloudy_snowing, // Slight rain showers
+    81: Icons.cloudy_snowing, // Moderate rain showers
+    82: Icons.cloudy_snowing, // Violent rain showers
     85: Icons.ac_unit, // Slight snow showers
-    86: Icons.ac_unit, // Heavy snow showers
-    95: Icons.flash_on, // Thunderstorm
-    96: Icons.flash_on, // Thunderstorm with slight hail
-    99: Icons.flash_on, // Thunderstorm with heavy hail
+    86: Icons.severe_cold, // Heavy snow showers
+    95: Icons.thunderstorm, // Thunderstorm
+    96: Icons.electric_bolt, // Thunderstorm with slight hail
+    99: Icons.bolt, // Thunderstorm with heavy hail
   };
 
   String get time =>

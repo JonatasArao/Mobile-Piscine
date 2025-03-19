@@ -269,7 +269,7 @@ class _WeeklyViewState extends State<WeeklyView> {
               ),
               const SizedBox(height: 10),
               Container(
-                decoration: BoxDecoration(color: Colors.black54),
+                decoration: BoxDecoration(color: Colors.black38),
                 height: 175,
                 width: MediaQuery.of(context).size.width,
                 child: Scrollbar(
