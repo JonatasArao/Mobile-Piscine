@@ -110,9 +110,9 @@ class LocationSearchState extends State<LocationSearch> {
           focusNode: focusNode,
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: 'Search Location...',
-            hintStyle: TextStyle(color: Colors.grey),
-            prefixIcon: Icon(Icons.search, color: Colors.grey),
+            labelText: 'Search Location...',
+            labelStyle: TextStyle(color: Colors.grey),
+            prefixIcon: Icon(Icons.search, color: Colors.white),
           ),
           style: const TextStyle(color: Colors.white, fontSize: 18),
           onSubmitted: (value) async {
