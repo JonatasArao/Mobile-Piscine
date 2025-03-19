@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
 
-class TodayView extends StatelessWidget {
+class TodayView extends StatefulWidget {
   const TodayView({
     super.key,
     required this.location,
@@ -12,7 +12,22 @@ class TodayView extends StatelessWidget {
   final List<Weather> todayWeather;
 
   @override
+  State<TodayView> createState() => _TodayViewState();
+}
+
+class _TodayViewState extends State<TodayView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+    final location = widget.location;
+    final todayWeather = widget.todayWeather;
+
     return Center(
       child: SingleChildScrollView(
         child: Padding(
@@ -42,7 +57,9 @@ class TodayView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Scrollbar(
                   thumbVisibility: true,
+                  controller: _scrollController,
                   child: ListView.builder(
+                    controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     itemCount: todayWeather.length,
                     itemBuilder: (context, index) {

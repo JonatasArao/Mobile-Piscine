@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/location.dart';
 import '../models/weather.dart';
 
-class WeeklyView extends StatelessWidget {
+class WeeklyView extends StatefulWidget {
   const WeeklyView({
     super.key,
     required this.location,
@@ -12,7 +12,23 @@ class WeeklyView extends StatelessWidget {
   final List<Weather> weekWeather;
 
   @override
+  State<WeeklyView> createState() => _WeeklyViewState();
+}
+
+class _WeeklyViewState extends State<WeeklyView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final location = widget.location;
+    final weekWeather = widget.weekWeather;
+
     return Center(
       child: SingleChildScrollView(
         child: Padding(
@@ -42,7 +58,9 @@ class WeeklyView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Scrollbar(
                   thumbVisibility: true,
+                  controller: _scrollController,
                   child: ListView.builder(
+                    controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     itemCount: weekWeather.length,
                     itemBuilder: (context, index) {
