@@ -40,7 +40,7 @@ class Location {
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
         name: json['name'] as String,
-        region: json['admin1'] as String,
+        region: json['admin1'] ?? '',
         country: json['country'] as String,
       );
     } catch (e) {
