@@ -89,7 +89,10 @@ class Location {
           throw 'Geolocation request timed out. Please try again.';
         },
       );
-      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
       location = Location._fromGeolocation(position, placemarks.first);
       return (location);
     } catch (e) {
@@ -100,7 +103,9 @@ class Location {
   static Future<List<Location>> fetchLocations(String name, int count) async {
     try {
       final response = await http.get(
-        Uri.parse('https://geocoding-api.open-meteo.com/v1/search?name=$name&count=$count'),
+        Uri.parse(
+          'https://geocoding-api.open-meteo.com/v1/search?name=$name&count=$count',
+        ),
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse =

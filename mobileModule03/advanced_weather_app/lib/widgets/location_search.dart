@@ -58,23 +58,32 @@ class LocationSearchState extends State<LocationSearch> {
                   border: Border(bottom: BorderSide(color: Colors.tealAccent)),
                 ),
                 child: ListTile(
-                  leading: Text(option.flag, style: TextStyle(fontSize: 18),),
+                  leading: Text(option.flag, style: TextStyle(fontSize: 18)),
                   title: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
                           text: option.name,
-                          style: const TextStyle(color: Colors.white, fontSize: 16),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                         if (option.region.isNotEmpty == true)
                           TextSpan(
                             text: ' ${option.region}',
-                            style: const TextStyle(color: Colors.grey, fontSize: 14),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
                           ),
                         if (option.country.isNotEmpty == true)
                           TextSpan(
                             text: ', ${option.country}',
-                            style: const TextStyle(color: Colors.grey, fontSize: 14),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
                           ),
                       ],
                     ),

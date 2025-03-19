@@ -93,49 +93,59 @@ class _ScreenState extends State<Screen> {
             ),
           ],
         ),
-        body: FutureBuilder<Report>(
-          future: report,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(color: Colors.tealAccent),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    '${snapshot.error}',
-                    style: TextStyle(color: Colors.red, fontSize: 18),
-                    textAlign: TextAlign.center,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background.jpeg'),
+              fit: BoxFit.cover,
+              opacity: 0.2,
+              repeat: ImageRepeat.noRepeat,
+            ),
+          ),
+          child: FutureBuilder<Report>(
+            future: report,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(color: Colors.tealAccent),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      '${snapshot.error}',
+                      style: TextStyle(color: Colors.red, fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              );
-            } else if (snapshot.hasData) {
-              final report = snapshot.data!;
-              return Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: TabBarView(
-                  children: [
-                    CurrentlyView(
-                      location: report.location,
-                      currentWeather: report.currentWeather,
-                    ),
-                    TodayView(
-                      location: report.location,
-                      todayWeather: report.todayWeather,
-                    ),
-                    WeeklyView(
-                      location: report.location,
-                      weekWeather: report.weekWeather,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Center(child: Text('Unknown error occurred'));
-            }
-          },
+                );
+              } else if (snapshot.hasData) {
+                final report = snapshot.data!;
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TabBarView(
+                    children: [
+                      CurrentlyView(
+                        location: report.location,
+                        currentWeather: report.currentWeather,
+                      ),
+                      TodayView(
+                        location: report.location,
+                        todayWeather: report.todayWeather,
+                      ),
+                      WeeklyView(
+                        location: report.location,
+                        weekWeather: report.weekWeather,
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return Center(child: Text('Unknown error occurred'));
+              }
+            },
+          ),
         ),
         bottomNavigationBar: BottomAppBar(
           padding: EdgeInsets.zero,
