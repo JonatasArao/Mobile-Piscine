@@ -38,7 +38,7 @@ class CurrentlyView extends StatelessWidget {
               const SizedBox(height: 50),
               Text(
                 currentWeather.maxTemperature,
-                style: const TextStyle(fontSize: 40, color: Colors.limeAccent),
+                style: const TextStyle(fontSize: 40, color: Colors.greenAccent),
               ),
               const SizedBox(height: 20),
               Column(
@@ -58,7 +58,11 @@ class CurrentlyView extends StatelessWidget {
                   style: const TextStyle(fontSize: 18, color: Colors.white),
                   children: [
                     WidgetSpan(
-                      child: Icon(Icons.air, size: 18, color: Colors.tealAccent),
+                      child: Icon(
+                        Icons.air,
+                        size: 18,
+                        color: Colors.tealAccent,
+                      ),
                     ),
                     const WidgetSpan(child: SizedBox(width: 5)),
                     TextSpan(text: currentWeather.windSpeed),

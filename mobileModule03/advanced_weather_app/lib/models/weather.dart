@@ -93,7 +93,7 @@ class Weather {
   String get time =>
       '${_time.hour.toString().padLeft(2, '0')}:${_time.minute.toString().padLeft(2, '0')}';
   String get date =>
-      '${_time.year}-${_time.month.toString().padLeft(2, '0')}-${_time.day.toString().padLeft(2, '0')}';
+      '${_time.day.toString().padLeft(2, '0')}/${_time.month.toString().padLeft(2, '0')}';
   String get windSpeed => '$_windSpeed $_windSpeedUnit';
   String get maxTemperature => '$_maxTemperature$_maxTemperatureUnit';
   String get minTemperature => '$_minTemperature$_minTemperatureUnit';

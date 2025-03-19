@@ -23,6 +23,9 @@ class WeatherApp extends StatelessWidget {
           primary: Colors.tealAccent,
           brightness: Brightness.dark,
         ),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStatePropertyAll(Colors.greenAccent),
+        ),
       ),
       home: const Screen(),
     );
@@ -122,24 +125,21 @@ class _ScreenState extends State<Screen> {
                 );
               } else if (snapshot.hasData) {
                 final report = snapshot.data!;
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: TabBarView(
-                    children: [
-                      CurrentlyView(
-                        location: report.location,
-                        currentWeather: report.currentWeather,
-                      ),
-                      TodayView(
-                        location: report.location,
-                        todayWeather: report.todayWeather,
-                      ),
-                      WeeklyView(
-                        location: report.location,
-                        weekWeather: report.weekWeather,
-                      ),
-                    ],
-                  ),
+                return TabBarView(
+                  children: [
+                    CurrentlyView(
+                      location: report.location,
+                      currentWeather: report.currentWeather,
+                    ),
+                    TodayView(
+                      location: report.location,
+                      todayWeather: report.todayWeather,
+                    ),
+                    WeeklyView(
+                      location: report.location,
+                      weekWeather: report.weekWeather,
+                    ),
+                  ],
                 );
               } else {
                 return Center(child: Text('Unknown error occurred'));
