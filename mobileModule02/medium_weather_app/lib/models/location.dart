@@ -72,7 +72,7 @@ class Location {
         }
       }
       position = await Geolocator.getCurrentPosition().timeout(
-        Duration(seconds: 10),
+        Duration(seconds: 30),
         onTimeout: () {
           throw 'Geolocation request timed out. Please try again.';
         },
