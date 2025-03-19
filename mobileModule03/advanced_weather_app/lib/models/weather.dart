@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Weather {
   final DateTime _time;
   final double _windSpeed;
@@ -57,6 +59,37 @@ class Weather {
     99: "Thunderstorm with heavy hail",
   };
 
+  static const Map<int, IconData> _weatherIcons = {
+    0: Icons.wb_sunny, // Clear sky
+    1: Icons.wb_sunny, // Mainly clear
+    2: Icons.cloud, // Partly cloudy
+    3: Icons.cloud, // Overcast
+    45: Icons.foggy, // Fog
+    48: Icons.foggy, // Depositing rime fog
+    51: Icons.grain, // Light drizzle
+    53: Icons.grain, // Moderate drizzle
+    55: Icons.grain, // Dense drizzle
+    56: Icons.ac_unit, // Light freezing drizzle
+    57: Icons.ac_unit, // Dense freezing drizzle
+    61: Icons.umbrella, // Slight rain
+    63: Icons.umbrella, // Moderate rain
+    65: Icons.umbrella, // Heavy rain
+    66: Icons.ac_unit, // Light freezing rain
+    67: Icons.ac_unit, // Heavy freezing rain
+    71: Icons.ac_unit, // Slight snow fall
+    73: Icons.ac_unit, // Moderate snow fall
+    75: Icons.ac_unit, // Heavy snow fall
+    77: Icons.ac_unit, // Snow grains
+    80: Icons.shower, // Slight rain showers
+    81: Icons.shower, // Moderate rain showers
+    82: Icons.shower, // Violent rain showers
+    85: Icons.ac_unit, // Slight snow showers
+    86: Icons.ac_unit, // Heavy snow showers
+    95: Icons.flash_on, // Thunderstorm
+    96: Icons.flash_on, // Thunderstorm with slight hail
+    99: Icons.flash_on, // Thunderstorm with heavy hail
+  };
+
   String get time =>
       '${_time.hour.toString().padLeft(2, '0')}:${_time.minute.toString().padLeft(2, '0')}';
   String get date =>
@@ -65,6 +98,7 @@ class Weather {
   String get maxTemperature => '$_maxTemperature$_maxTemperatureUnit';
   String get minTemperature => '$_minTemperature$_minTemperatureUnit';
   String get description => _weatherDescriptions[_weatherCode] ?? "Unknown";
+  IconData get icon => _weatherIcons[_weatherCode] ?? Icons.help_outline;
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     try {

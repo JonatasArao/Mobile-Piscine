@@ -96,7 +96,7 @@ class _ScreenState extends State<Screen> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/background.jpeg'),
+              image: AssetImage('img/background.jpg'),
               fit: BoxFit.cover,
               opacity: 0.2,
               repeat: ImageRepeat.noRepeat,
