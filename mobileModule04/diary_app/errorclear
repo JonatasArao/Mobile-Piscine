@@ -1,0 +1,223 @@
+[31m[   +1 ms] [1mNote: Some input files use or override a deprecated API.[22m[39m
+[31m[   +1 ms] [1mNote: Recompile with -Xlint:deprecation for details.[22m[39m
+[31m[        ] [1mFAILURE: Build failed with an exception.[22m[39m
+[31m[        ] [1m* What went wrong:[22m[39m
+[31m[        ] [1mExecution failed for task ':app:configureCMakeDebug[arm64-v8a]'.[22m[39m
+[31m[        ] [1m> java.io.IOException: Unable to delete directory[39m
+[31m'/nfs/homes/jarao-de/Projects/42.zip/Mobile/mobileModule04/diary_app/android/app/.cxx/Debug/18431t73/arm64-v8a' after 10 attempts[22m[39m
+[31m[        ] [1m* Try:[22m[39m
+[31m[        ] [1m> Run with --debug option to get more log output.[22m[39m
+[31m[        ] [1m> Run with --scan to get full insights.[22m[39m
+[31m[        ] [1m> Get more help at https://help.gradle.org.[22m[39m
+[31m[        ] [1m* Exception is:[22m[39m
+[31m[        ] [1morg.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:configureCMakeDebug[arm64-v8a]'.[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:293)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)[22m[39m
+[31m[        ] [1m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)[22m[39m
+[31m[        ] [1m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)[22m[39m
+[31m[        ] [1m	at java.base/java.lang.Thread.run(Thread.java:833)[22m[39m
+[31m[        ] [1mCaused by: org.gradle.api.UncheckedIOException: java.io.IOException: Unable to delete directory[39m
+[31m'/nfs/homes/jarao-de/Projects/42.zip/Mobile/mobileModule04/diary_app/android/app/.cxx/Debug/18431t73/arm64-v8a' after 10 attempts[22m[39m
+[31m[        ] [1m	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:63)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:42)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:128)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.doExecute(StandardTaskAction.java:58)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:42)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:75)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:69)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:46)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:75)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.Either$Right.fold(Either.java:175)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:75)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:53)[22m[39m
+[31m[        ] [1m	at java.base/java.util.Optional.orElseGet(Optional.java:364)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:53)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:35)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:107)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:56)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)[22m[39m
+[31m[        ] [1m	at java.base/java.util.Optional.orElseGet(Optional.java:364)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)[22m[39m
+[31m[        ] [1m	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)[22m[39m
+[31m[        ] [1m	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)[22m[39m
+[31m[        ] [1m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)[22m[39m
+[31m[        ] [1m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)[22m[39m
+[31m[        ] [1m	at java.base/java.lang.Thread.run(Thread.java:833)[22m[39m
+[31m[        ] [1mCaused by: java.io.IOException: Unable to delete directory[39m
+[31m'/nfs/homes/jarao-de/Projects/42.zip/Mobile/mobileModule04/diary_app/android/app/.cxx/Debug/18431t73/arm64-v8a' after 10 attempts[22m[39m
+[31m[        ] [1m	at com.android.utils.PathUtils.deleteRecursivelyIfExists(PathUtils.java:132)[22m[39m
+[31m[        ] [1m	at com.android.utils.FileUtils.deleteRecursivelyIfExists(FileUtils.java:387)[22m[39m
+[31m[        ] [1m	at com.android.utils.FileUtils.deletePath(FileUtils.java:77)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator.configureOneAbi(ExternalNativeJsonGenerator.kt:239)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.tasks.ExternalNativeJsonGenerator.configure(ExternalNativeJsonGenerator.kt:113)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.tasks.ExternalNativeBuildJsonTask.doTaskAction(ExternalNativeBuildJsonTask.kt:89)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask$taskAction$$inlined$recordTaskAction$1.invoke(BaseTask.kt:78)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.internal.tasks.Blocks.recordSpan(Blocks.java:51)[22m[39m
+[31m[        ] [1m	at com.android.build.gradle.internal.tasks.UnsafeOutputsTask.taskAction(UnsafeOutputsTask.kt:81)[22m[39m
+[31m[        ] [1m	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)[22m[39m
+[31m[        ] [1m	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)[22m[39m
+[31m[        ] [1m	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)[22m[39m
+[31m[        ] [1m	at java.base/java.lang.reflect.Method.invoke(Method.java:568)[22m[39m
+[31m[        ] [1m	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)[22m[39m
+[31m[        ] [1m	... 121 more[22m[39m
+[31m[        ] [1mCaused by: java.nio.file.DirectoryNotEmptyException:[39m
+[31m/nfs/homes/jarao-de/Projects/42.zip/Mobile/mobileModule04/diary_app/android/app/.cxx/Debug/18431t73/arm64-v8a[22m[39m
+[31m[        ] [1m	at java.base/sun.nio.fs.UnixFileSystemProvider.implDelete(UnixFileSystemProvider.java:246)[22m[39m
+[31m[        ] [1m	at java.base/sun.nio.fs.AbstractFileSystemProvider.deleteIfExists(AbstractFileSystemProvider.java:110)[22m[39m
+[31m[        ] [1m	at java.base/java.nio.file.Files.deleteIfExists(Files.java:1191)[22m[39m
+[31m[        ] [1m	at com.android.utils.PathUtils.deleteRecursivelyIfExists(PathUtils.java:91)[22m[39m
+[31m[        ] [1m	... 134 more[22m[39m
+[31m[        ] [1mBUILD FAILED in 10s[22m[39m
+[31m[[1m +157 ms[22m] [1mError: Gradle task assembleDebug failed with exit code 1[22m[39m
+[31m[[1m +179 ms[22m] [1m[22m[39m
+[31m[1m                    #0      throwToolExit (package:flutter_tools/src/base/common.dart:34:3)[22m[39m
+[31m[1m                    #1      RunCommand.runCommand (package:flutter_tools/src/commands/run.dart:931:9)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #2      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1558:27)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #3      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #4      CommandRunner.runCommand (package:args/command_runner.dart:212:13)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #5      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:496:9)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #6      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #7      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:431:5)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #8      run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:98:11)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #9      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    #10     main (package:flutter_tools/executable.dart:99:3)[22m[39m
+[31m[1m                    <asynchronous suspension>[22m[39m
+[31m[1m                    [22m[39m
+[31m[1m                    [22m[39m
