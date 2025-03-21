@@ -28,6 +28,7 @@ class Note {
     "tired": FontAwesomeIcons.faceTired,
     "confused": FontAwesomeIcons.faceFlushed,
     "love": FontAwesomeIcons.faceGrinHearts,
+    "sick": FontAwesomeIcons.faceDizzy,
   };
 
   static const Map<int, String> monthNames = {
@@ -59,6 +60,7 @@ class Note {
   int get month => _date.month;
   String get monthName => monthNames[_date.month] ?? 'Unknown';
   int get year => _date.year;
+  String get formattedDate => '$dayName, $monthName $day, $year';
   String get title => _title;
   String get feeling => _feeling;
   String get content => _content;

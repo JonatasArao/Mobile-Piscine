@@ -1,4 +1,6 @@
+import 'package:diary_app/widgets/entry_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/note.dart';
 import '../widgets/note_card.dart';
 
@@ -51,20 +53,31 @@ class _DashViewState extends State<DashView> {
               textAlign: TextAlign.center,
             ),
             ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                itemCount: notes.length,
-                itemBuilder: (context, index) {
-                  final note = notes[index];
-                  return NoteCard(
-                    note: note,
-                    onTap: () {
-                      debugPrint('NoteCard tapped: ${note.content}');
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) => const SizedBox(height: 10),
-              ),
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              itemCount: notes.length,
+              itemBuilder: (context, index) {
+                final note = notes[index];
+                return NoteCard(
+                  note: note,
+                  onTap:
+                      () => showDialog(
+                        context: context,
+                        builder:
+                            (context) => EntryDialog(
+                              note: note,
+                              onDelete: () {
+                                setState(() {
+                                  notes.remove(note);
+                                });
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                      ),
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+            ),
           ],
         ),
       ),
