@@ -31,20 +31,12 @@ class _LoginViewState extends State<LoginView> {
             ),
             const SizedBox(height: 50),
             ElevatedButton.icon(
-              onPressed: () async {
-                try {
-                  final auth = Auth();
-                  await auth.signInWithGoogle();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/dash',
-                    (route) => false,
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Google Sign-In failed: $e')),
-                  );
-                }
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/dash',
+                  (route) => false,
+                );
               },
               icon: const FaIcon(FontAwesomeIcons.google, size: 20),
               label: const Text('Continue with Google'),
@@ -55,20 +47,12 @@ class _LoginViewState extends State<LoginView> {
             ),
             const SizedBox(height: 30),
             ElevatedButton.icon(
-              onPressed: () async {
-                try {
-                  final auth = Auth();
-                  await auth.signInWithGitHub();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/dash',
-                    (route) => false,
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('GitHub Sign-In failed: $e')),
-                  );
-                }
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/dash',
+                  (route) => false,
+                );
               },
               icon: const FaIcon(
                 FontAwesomeIcons.github,

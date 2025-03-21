@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../services/auth.dart';
+import '../models/note.dart';
+import '../widgets/note_card.dart';
 
 class DashView extends StatefulWidget {
   const DashView({super.key});
@@ -9,31 +9,73 @@ class DashView extends StatefulWidget {
 }
 
 class _DashViewState extends State<DashView> {
-  final Auth authInstance = Auth();
-  User? user;
-
-  @override
-  void initState() {
-    super.initState();
-    user = authInstance.currentUser;
-  }
+  final List<Note> notes = [
+    Note(
+      date: DateTime.now(),
+      title: 'A Day to Remember',
+      feeling: 'satisfied',
+      content: 'Today was a great day!',
+    ),
+    Note(
+      date: DateTime.now().subtract(const Duration(days: 1)),
+      title: 'A Day to Not Remember',
+      feeling: 'sad',
+      content: 'Today was a tough day!',
+    ),
+    Note(
+      date: DateTime.now().subtract(const Duration(days: 2)),
+      title: 'An Ordinary Day',
+      feeling: 'neutral',
+      content: 'Nothing special happened today.',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+        padding: const EdgeInsets.only(
+          top: 50,
+          bottom: 10,
+          left: 15,
+          right: 15,
+        ),
+        color: Colors.blueGrey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (user != null)
-              Text(
-                'Hello, ${user!.displayName ?? 'User'}!',
-                style: const TextStyle(fontSize: 20),
+            Text(
+              'Your last diary entries',
+              style: const TextStyle(fontSize: 30),
+              textAlign: TextAlign.center,
+            ),
+            ListView.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                itemCount: notes.length,
+                itemBuilder: (context, index) {
+                  final note = notes[index];
+                  return NoteCard(
+                    note: note,
+                    onTap: () {
+                      debugPrint('NoteCard tapped: ${note.content}');
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
               ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          debugPrint('Elevated Button Pressed');
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+        child: const Text('New diary entry'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
