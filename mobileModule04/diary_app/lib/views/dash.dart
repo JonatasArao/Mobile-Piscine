@@ -1,6 +1,6 @@
 import 'package:diary_app/widgets/entry_dialog.dart';
+import 'package:diary_app/widgets/entry_form_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/note.dart';
 import '../widgets/note_card.dart';
 
@@ -35,60 +35,72 @@ class _DashViewState extends State<DashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(
-          top: 50,
-          bottom: 10,
-          left: 15,
-          right: 15,
-        ),
-        color: Colors.blueGrey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              'Your last diary entries',
-              style: const TextStyle(fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
-            ListView.separated(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                final note = notes[index];
-                return NoteCard(
-                  note: note,
-                  onTap:
-                      () => showDialog(
-                        context: context,
-                        builder:
-                            (context) => EntryDialog(
-                              note: note,
-                              onDelete: () {
-                                setState(() {
-                                  notes.remove(note);
-                                });
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                      ),
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-            ),
-          ],
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+          color: Colors.blueGrey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Your last diary entries',
+                style: TextStyle(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              Flexible(
+                fit: FlexFit.loose,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  itemCount: notes.length,
+                  itemBuilder: (context, index) {
+                  final note = notes[index];
+                  return NoteCard(
+                    note: note,
+                    onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => EntryDialog(
+                      note: note,
+                      onDelete: () {
+                      setState(() {
+                        notes.remove(note);
+                      });
+                      Navigator.of(context).pop();
+                      },
+                    ),
+                    ),
+                  );
+                  },
+                  separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
-          debugPrint('Elevated Button Pressed');
+          showDialog(
+            context: context,
+            builder: (context) => const EntryFormDialog(),
+          ).then((newNote) {
+            if (newNote != null && newNote is Note) {
+              setState(() {
+                notes.add(newNote);
+              });
+            }
+          });
         },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey[900]),
         child: const Text('New diary entry'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation:
+          MediaQuery.of(context).orientation == Orientation.landscape
+          ? FloatingActionButtonLocation.endFloat
+          : FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -17,7 +17,7 @@ class Note {
        _feeling = feeling,
        _content = content;
 
-  static const Map<String, IconData> _feelingIcon = {
+  static const Map<String, IconData> feelings = {
     "satisfied": FontAwesomeIcons.faceLaugh,
     "happy": FontAwesomeIcons.faceSmile,
     "sad": FontAwesomeIcons.faceFrown,
@@ -65,5 +65,5 @@ class Note {
   String get feeling => _feeling;
   String get content => _content;
   IconData get feelingIcon =>
-      _feelingIcon[_feeling] ?? FontAwesomeIcons.faceMehBlank;
+      feelings[_feeling] ?? FontAwesomeIcons.faceMehBlank;
 }
