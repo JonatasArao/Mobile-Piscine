@@ -21,7 +21,7 @@ class GateState extends State<Gate> {
         } else {
           return const LoginView();
         }
-      }
+      },
     );
   }
 }

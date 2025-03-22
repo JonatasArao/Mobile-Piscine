@@ -32,16 +32,16 @@ class _LoginViewState extends State<LoginView> {
             const SizedBox(height: 50),
             ElevatedButton.icon(
               onPressed: () async {
-                 try {
-                   final auth = Auth();
-                   await auth.signInWithGoogle();
-                 } catch (e) {
-                   if (mounted) {
-                     ScaffoldMessenger.of(context).showSnackBar(
-                       SnackBar(content: Text('GitHub Sign-In failed: $e')),
-                     );
-                   }
-                 }
+                try {
+                  final auth = Auth();
+                  await auth.signInWithGoogle();
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('GitHub Sign-In failed: $e')),
+                    );
+                  }
+                }
               },
               icon: const FaIcon(FontAwesomeIcons.google, size: 20),
               label: const Text('Continue with Google'),
@@ -53,16 +53,16 @@ class _LoginViewState extends State<LoginView> {
             const SizedBox(height: 30),
             ElevatedButton.icon(
               onPressed: () async {
-                 try {
-                   final auth = Auth();
-                   await auth.signInWithGitHub();
-                 } catch (e) {
-                   if (mounted) {
-                     ScaffoldMessenger.of(context).showSnackBar(
-                       SnackBar(content: Text('GitHub Sign-In failed: $e')),
-                     );
-                   }
-                 }
+                try {
+                  final auth = Auth();
+                  await auth.signInWithGitHub();
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('GitHub Sign-In failed: $e')),
+                    );
+                  }
+                }
               },
               icon: const FaIcon(
                 FontAwesomeIcons.github,

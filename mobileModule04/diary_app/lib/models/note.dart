@@ -1,21 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Note {
-  final DateTime _date;
+  final String _id;
   final String _title;
   final String _feeling;
   final String _content;
+  final DateTime _date;
 
   Note({
-    required DateTime date,
+    required String id,
     required String title,
     required String feeling,
     required String content,
-  }) : _date = date,
+    required DateTime date,
+  }) : _id = id,
        _title = title,
        _feeling = feeling,
-       _content = content;
+       _content = content,
+       _date = date;
+
+  factory Note.fromJson(Map<String, dynamic> json, String id) {
+    return Note(
+      id: id,
+      title: json['title'] as String,
+      feeling: json['icon'] as String,
+      content: json['text'] as String,
+      date: (json['date'] as Timestamp).toDate(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'text': content,
+      'icon': feeling,
+      'date': Timestamp.fromDate(_date),
+    };
+  }
 
   static const Map<String, IconData> feelings = {
     "satisfied": FontAwesomeIcons.faceLaugh,
@@ -55,15 +78,17 @@ class Note {
     7: "Saturday",
   };
 
+  String get id => _id;
+  String get title => _title;
+  String get feeling => _feeling;
+  String get content => _content;
   int get day => _date.day;
   String get dayName => dayNames[_date.weekday] ?? 'Unknown';
   int get month => _date.month;
   String get monthName => monthNames[_date.month] ?? 'Unknown';
   int get year => _date.year;
+  DateTime get date => _date;
   String get formattedDate => '$dayName, $monthName $day, $year';
-  String get title => _title;
-  String get feeling => _feeling;
-  String get content => _content;
   IconData get feelingIcon =>
       feelings[_feeling] ?? FontAwesomeIcons.faceMehBlank;
 }

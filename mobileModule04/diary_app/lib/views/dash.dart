@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/note.dart';
-import '../models/diary.dart';
+import '../services/diary.dart';
 import '../widgets/entry_dialog.dart';
 import '../widgets/entry_form_dialog.dart';
 import '../widgets/note_card.dart';
@@ -13,31 +13,6 @@ class DashView extends StatefulWidget {
 
 class _DashViewState extends State<DashView> {
   final Diary diary = Diary();
-  final List<Note> notes = [
-    Note(
-      date: DateTime.now(),
-      title: 'A Day to Remember',
-      feeling: 'satisfied',
-      content: 'Today was a great day!',
-    ),
-    Note(
-      date: DateTime.now().subtract(const Duration(days: 1)),
-      title: 'A Day to Not Remember',
-      feeling: 'sad',
-      content: 'Today was a tough day!',
-    ),
-    Note(
-      date: DateTime.now().subtract(const Duration(days: 2)),
-      title: 'An Ordinary Day',
-      feeling: 'neutral',
-      content: 'Nothing special happened today.',
-    ),
-  ];
-  @override
-  void initState() {
-    super.initState();
-    notes.forEach(diary.addNote);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,35 +31,87 @@ class _DashViewState extends State<DashView> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              Flexible(
-                fit: FlexFit.loose,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  itemCount: diary.notes.length,
-                  itemBuilder: (context, index) {
-                    final note = diary.notes[index];
-                    return NoteCard(
-                      note: note,
-                      onTap:
-                          () => showDialog(
-                            context: context,
-                            builder:
-                                (context) => EntryDialog(
-                                  note: note,
-                                  onDelete: () {
-                                    setState(() {
-                                      diary.removeNote(note);
-                                    });
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                          ),
+              StreamBuilder<List<Note>>(
+                stream: diary.streamNotes(),
+                initialData: [],
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          '${snapshot.error}',
+                          style: TextStyle(color: Colors.red, fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     );
-                  },
-                  separatorBuilder:
-                      (context, index) => const SizedBox(height: 10),
-                ),
+                  }  else if (snapshot.hasData) {
+                    final notes = snapshot.data!;
+                    if (notes.isEmpty)
+                    {
+                      return const Center(
+                        child: Text(
+                            'No entries found',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      );
+                    }
+                    return Flexible(
+                      fit: FlexFit.loose,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        itemCount: notes.length,
+                        itemBuilder: (context, index) {
+                          final note = notes[index];
+                          return NoteCard(
+                            note: note,
+                            onTap:
+                                () => showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => EntryDialog(
+                                        note: note,
+                                        onDelete: () async {
+                                          try {
+                                            Navigator.of(context).pop(note);
+                                            await diary.deleteNote(note);
+                                          } catch (e) {
+                                            if (mounted) {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Failed to delete note: $e',
+                                                  ),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
+                                      ),
+                                ),
+                          );
+                        },
+                        separatorBuilder:
+                            (context, index) => const SizedBox(height: 10),
+                      ),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                      heightFactor: 2,
+                      child: CircularProgressIndicator(
+                        color: Colors.tealAccent,
+                      ),
+                    );
+                  } else {
+                    return Center(child: Text('Unknown error occurred'));
+                  }
+                },
               ),
             ],
           ),
@@ -95,11 +122,20 @@ class _DashViewState extends State<DashView> {
           showDialog(
             context: context,
             builder: (context) => const EntryFormDialog(),
-          ).then((newNote) {
+          ).then((newNote) async {
             if (newNote != null && newNote is Note) {
-              setState(() {
-                diary.addNote(newNote);
-              });
+              try {
+                await diary.addNote(newNote);
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to add note: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
             }
           });
         },

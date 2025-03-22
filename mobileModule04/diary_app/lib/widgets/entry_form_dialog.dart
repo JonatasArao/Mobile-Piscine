@@ -27,6 +27,7 @@ class EntryFormDialogState extends State<EntryFormDialog> {
           thumbVisibility: true,
           controller: scrollController,
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Form(
@@ -101,6 +102,7 @@ class EntryFormDialogState extends State<EntryFormDialog> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               final newNote = Note(
+                                id: '',
                                 date: DateTime.now(),
                                 title: titleController.text,
                                 feeling: selectedFeeling!,
