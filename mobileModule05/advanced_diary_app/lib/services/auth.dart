@@ -22,4 +22,8 @@ class Auth {
     GithubAuthProvider githubProvider = GithubAuthProvider();
     return await FirebaseAuth.instance.signInWithProvider(githubProvider);
   }
+
+  Future<void> sigOut() async {
+    await _firebaseAuth.signOut();
+  }
 }
