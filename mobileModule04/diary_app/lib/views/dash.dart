@@ -1,7 +1,8 @@
-import 'package:diary_app/widgets/entry_dialog.dart';
-import 'package:diary_app/widgets/entry_form_dialog.dart';
 import 'package:flutter/material.dart';
 import '../models/note.dart';
+import '../models/diary.dart';
+import '../widgets/entry_dialog.dart';
+import '../widgets/entry_form_dialog.dart';
 import '../widgets/note_card.dart';
 
 class DashView extends StatefulWidget {
@@ -11,6 +12,7 @@ class DashView extends StatefulWidget {
 }
 
 class _DashViewState extends State<DashView> {
+  final Diary diary = Diary();
   final List<Note> notes = [
     Note(
       date: DateTime.now(),
@@ -31,6 +33,11 @@ class _DashViewState extends State<DashView> {
       content: 'Nothing special happened today.',
     ),
   ];
+  @override
+  void initState() {
+    super.initState();
+    notes.forEach(diary.addNote);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,27 +61,29 @@ class _DashViewState extends State<DashView> {
                 child: ListView.separated(
                   shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  itemCount: notes.length,
+                  itemCount: diary.notes.length,
                   itemBuilder: (context, index) {
-                  final note = notes[index];
-                  return NoteCard(
-                    note: note,
-                    onTap: () => showDialog(
-                    context: context,
-                    builder: (context) => EntryDialog(
+                    final note = diary.notes[index];
+                    return NoteCard(
                       note: note,
-                      onDelete: () {
-                      setState(() {
-                        notes.remove(note);
-                      });
-                      Navigator.of(context).pop();
-                      },
-                    ),
-                    ),
-                  );
+                      onTap:
+                          () => showDialog(
+                            context: context,
+                            builder:
+                                (context) => EntryDialog(
+                                  note: note,
+                                  onDelete: () {
+                                    setState(() {
+                                      diary.removeNote(note);
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                          ),
+                    );
                   },
-                  separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
+                  separatorBuilder:
+                      (context, index) => const SizedBox(height: 10),
                 ),
               ),
             ],
@@ -89,7 +98,7 @@ class _DashViewState extends State<DashView> {
           ).then((newNote) {
             if (newNote != null && newNote is Note) {
               setState(() {
-                notes.add(newNote);
+                diary.addNote(newNote);
               });
             }
           });
@@ -99,8 +108,8 @@ class _DashViewState extends State<DashView> {
       ),
       floatingActionButtonLocation:
           MediaQuery.of(context).orientation == Orientation.landscape
-          ? FloatingActionButtonLocation.endFloat
-          : FloatingActionButtonLocation.centerFloat,
+              ? FloatingActionButtonLocation.endFloat
+              : FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -1,9 +1,17 @@
-import 'package:diary_app/models/note.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'note.dart';
 
 class Diary {
-  final User _user;
-  List<Note> notes;
+  final List<Note> _notes;
 
-  Diary(this._user, {this.notes = const []});
+  Diary({List<Note>? notes}) : _notes = notes ?? [];
+
+  List<Note> get notes => _notes;
+
+  void addNote(Note newNote) {
+    _notes.add(newNote);
+  }
+
+  bool removeNote(Note note) {
+    return _notes.remove(note);
+  }
 }

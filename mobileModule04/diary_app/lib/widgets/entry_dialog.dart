@@ -42,14 +42,18 @@ class EntryDialog extends StatelessWidget {
                         ),
                         TextSpan(
                           text: '\n${note.title}',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                         ),
                         TextSpan(
                           text: '\n${note.formattedDate}',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.grey),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium?.copyWith(color: Colors.grey),
                         ),
                       ],
                     ),
