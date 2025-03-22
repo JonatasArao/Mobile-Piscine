@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'views/home.dart';
-import 'views/login.dart';
-import 'views/dash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,12 +37,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeView(),
-        '/login': (context) => const LoginView(),
-        '/dash': (context) => const DashView(),
-      },
+      home: HomeView(),
     );
   }
 }

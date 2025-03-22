@@ -1,3 +1,4 @@
+import 'package:diary_app/views/gate.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -21,7 +22,11 @@ class _HomeViewState extends State<HomeView> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/login'),
+              onPressed:
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Gate()),
+                  ),
               child: const Text('Login'),
             ),
           ],
