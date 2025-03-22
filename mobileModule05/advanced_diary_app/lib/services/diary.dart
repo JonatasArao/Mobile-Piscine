@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../models/note.dart';
 import 'auth.dart';
 
 class Diary {
-  final CollectionReference _notesCollection = FirebaseFirestore.instance
+  static final CollectionReference _notesCollection = FirebaseFirestore.instance
       .collection('notes');
-  final User? currentUser = Auth().currentUser;
 
-  Stream<List<Note>> streamNotes() {
+  static Stream<List<Note>> streamNotes() {
     try {
       String email;
 
-      if (currentUser == null) {
+      if (Auth.currentUser == null) {
         throw Exception('User is not authenticated.');
       }
-      email = currentUser?.email ?? '';
+      email = Auth.currentUser?.email ?? '';
       if (email.isEmpty) {
         throw Exception('User email is not available.');
       }
@@ -33,12 +31,12 @@ class Diary {
     }
   }
 
-  Future<void> addNote(Note newNote) async {
+  static Future<void> addNote(Note newNote) async {
     try {
-      if (currentUser == null) {
+      if (Auth.currentUser == null) {
         throw Exception('User is not authenticated.');
       }
-      final email = currentUser?.email ?? '';
+      final email = Auth.currentUser?.email ?? '';
       if (email.isEmpty) {
         throw Exception('User email is not available.');
       }
@@ -50,7 +48,7 @@ class Diary {
     }
   }
 
-  Future<void> deleteNote(Note note) async {
+  static Future<void> deleteNote(Note note) async {
     try {
       await _notesCollection.doc(note.id).delete();
     } catch (e) {

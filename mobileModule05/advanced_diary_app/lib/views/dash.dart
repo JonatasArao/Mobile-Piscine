@@ -1,3 +1,4 @@
+import 'package:advanced_diary_app/services/auth.dart';
 import 'package:advanced_diary_app/widgets/last_entrys.dart';
 import 'package:flutter/material.dart';
 import '../models/note.dart';
@@ -11,13 +12,26 @@ class DashView extends StatefulWidget {
 }
 
 class _DashViewState extends State<DashView> {
-  final Diary diary = Diary();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: LastEntries(diary: diary),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await Auth.sigOut();
+                  },
+                  child: Text('Logout'),
+                ),
+              ],
+            ),
+            LastEntries(),
+          ],
+        ),
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
@@ -27,7 +41,7 @@ class _DashViewState extends State<DashView> {
           ).then((newNote) async {
             if (newNote != null && newNote is Note) {
               try {
-                await diary.addNote(newNote);
+                await Diary.addNote(newNote);
               } catch (e) {
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(

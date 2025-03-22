@@ -33,8 +33,7 @@ class _LoginViewState extends State<LoginView> {
             ElevatedButton.icon(
               onPressed: () async {
                 try {
-                  final auth = Auth();
-                  await auth.signInWithGoogle();
+                  await Auth.signInWithGoogle();
                 } catch (e) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -54,8 +53,7 @@ class _LoginViewState extends State<LoginView> {
             ElevatedButton.icon(
               onPressed: () async {
                 try {
-                  final auth = Auth();
-                  await auth.signInWithGitHub();
+                  await Auth.signInWithGitHub();
                 } catch (e) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(

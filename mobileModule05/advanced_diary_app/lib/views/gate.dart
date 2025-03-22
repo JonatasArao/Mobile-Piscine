@@ -14,7 +14,7 @@ class GateState extends State<Gate> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Auth().authStateChanges,
+      stream: Auth.authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return DashView();
