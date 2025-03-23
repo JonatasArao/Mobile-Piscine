@@ -25,10 +25,7 @@ class FeelingReport extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Text(
                       '${snapshot.error}',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 18,
-                      ),
+                      style: const TextStyle(color: Colors.red, fontSize: 18),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -92,22 +89,18 @@ class FeelingReport extends StatelessWidget {
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 7),
+                      separatorBuilder:
+                          (context, index) => const SizedBox(height: 7),
                     ),
                   ],
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   heightFactor: 2,
-                  child: CircularProgressIndicator(
-                    color: Colors.tealAccent,
-                  ),
+                  child: CircularProgressIndicator(color: Colors.tealAccent),
                 );
               } else {
-                return const Center(
-                  child: Text('Unknown error occurred'),
-                );
+                return const Center(child: Text('Unknown error occurred'));
               }
             },
           ),

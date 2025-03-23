@@ -1,5 +1,9 @@
+import 'package:advanced_diary_app/widgets/entry_dialog.dart';
+import 'package:advanced_diary_app/widgets/note_calendar.dart';
+import 'package:advanced_diary_app/widgets/note_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../models/note.dart';
 import '../services/diary.dart';
 import '../widgets/top_bar.dart';
@@ -24,53 +28,48 @@ class _DashViewState extends State<DashView> {
             children: [
               SingleChildScrollView(
                 child: Column(
-                  children: [
-                    TopBar(),
-                    LastEntries(),
-                    FeelingReport(),
-                  ],
+                  children: [TopBar(), LastEntries(), FeelingReport()],
                 ),
               ),
-              Center(
-                child: Text('Another Tab Content'),
-              ),
+              NoteCalendar()
             ],
           ),
         ),
-      floatingActionButton: ElevatedButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => const EntryFormDialog(),
-          ).then((newNote) async {
-            if (newNote != null && newNote is Note) {
-              try {
-                await Diary.addNote(newNote);
-              } catch (e) {
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Failed to add note: $e'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => const EntryFormDialog(),
+            ).then((newNote) async {
+              if (newNote != null && newNote is Note) {
+                try {
+                  await Diary.addNote(newNote);
+                } catch (e) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Failed to add note: $e'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 }
               }
-            }
-          });
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey[900]),
-        child: const Text('New diary entry'),
-      ),
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueGrey[900],
+          ),
+          child: const Text('New diary entry'),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: BottomAppBar(
+        height: MediaQuery.of(context).orientation == Orientation.landscape ? 50 : 80,
           padding: EdgeInsets.zero,
           color: Colors.grey[900],
           child: TabBar(
             indicator: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.cyan, width: 2.0),
-              ),
+              border: Border(top: BorderSide(color: Colors.cyan, width: 2.0)),
             ),
             labelColor: Colors.cyan,
             dividerColor: Colors.transparent,
