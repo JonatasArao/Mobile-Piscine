@@ -1,14 +1,11 @@
-import 'package:advanced_diary_app/widgets/entry_dialog.dart';
-import 'package:advanced_diary_app/widgets/note_calendar.dart';
-import 'package:advanced_diary_app/widgets/note_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../models/note.dart';
 import '../services/diary.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/last_entrys.dart';
 import '../widgets/feeling_report.dart';
+import '../widgets/note_calendar.dart';
 import '../widgets/entry_form_dialog.dart';
 
 class DashView extends StatefulWidget {
