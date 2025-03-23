@@ -23,7 +23,7 @@ class LastEntries extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           StreamBuilder<List<Note>>(
-            stream: Diary.streamNotes(),
+            stream: Diary.streamNotes(2),
             initialData: const [],
             builder: (context, snapshot) {
               if (snapshot.hasError) {
@@ -51,8 +51,9 @@ class LastEntries extends StatelessWidget {
                   fit: FlexFit.loose,
                   child: ListView.separated(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    itemCount: notes.length > 2 ? 2 : notes.length,
+                    itemCount: notes.length,
                     itemBuilder: (context, index) {
                       final note = notes[index];
                       return NoteCard(

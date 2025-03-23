@@ -6,7 +6,33 @@ class Diary {
   static final CollectionReference _notesCollection = FirebaseFirestore.instance
       .collection('notes');
 
-  static Stream<List<Note>> streamNotes() {
+  static Stream<List<Note>> streamNotes(int limit) {
+    try {
+      String email;
+
+      if (Auth.currentUser == null) {
+        throw Exception('User is not authenticated.');
+      }
+      email = Auth.currentUser?.email ?? '';
+      if (email.isEmpty) {
+        throw Exception('User email is not available.');
+      }
+      return _notesCollection
+          .where('usermail', isEqualTo: email)
+          .orderBy('date', descending: true)
+          .limit(limit)
+          .snapshots()
+          .map((snapshot) {
+            return snapshot.docs.map((doc) {
+              return Note.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+            }).toList();
+          });
+    } catch (e) {
+      throw Exception('Failed to stream notes: $e');
+    }
+  }
+
+  static Stream<List<Note>> streamAllNotes() {
     try {
       String email;
 

@@ -40,6 +40,20 @@ class Note {
     };
   }
 
+  static Map<String, double> feelingsPercentage(List<Note> notes) {
+    final Map<String, int> counts = {};
+    for (var note in notes) {
+      counts[note.feeling] = (counts[note.feeling] ?? 0) + 1;
+    }
+    final total = notes.length;
+    final Map<String, double> percentages = {};
+    feelings.keys.forEach((feeling) {
+      final countValue = counts[feeling] ?? 0;
+      percentages[feeling] = (countValue / total) * 100;
+    });
+    return percentages;
+  }
+
   static const Map<String, IconData> feelings = {
     "satisfied": FontAwesomeIcons.faceLaugh,
     "happy": FontAwesomeIcons.faceSmile,
@@ -50,8 +64,6 @@ class Note {
     "excited": FontAwesomeIcons.faceGrinStars,
     "tired": FontAwesomeIcons.faceTired,
     "confused": FontAwesomeIcons.faceFlushed,
-    "love": FontAwesomeIcons.faceGrinHearts,
-    "sick": FontAwesomeIcons.faceDizzy,
   };
 
   static const Map<int, String> monthNames = {

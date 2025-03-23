@@ -1,8 +1,10 @@
-import 'package:advanced_diary_app/services/auth.dart';
-import 'package:advanced_diary_app/widgets/last_entrys.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/note.dart';
 import '../services/diary.dart';
+import '../widgets/top_bar.dart';
+import '../widgets/last_entrys.dart';
+import '../widgets/feeling_report.dart';
 import '../widgets/entry_form_dialog.dart';
 
 class DashView extends StatefulWidget {
@@ -14,25 +16,27 @@ class DashView extends StatefulWidget {
 class _DashViewState extends State<DashView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await Auth.sigOut();
-                  },
-                  child: Text('Logout'),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: SafeArea(
+          child: TabBarView(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TopBar(),
+                    LastEntries(),
+                    FeelingReport(),
+                  ],
                 ),
-              ],
-            ),
-            LastEntries(),
-          ],
+              ),
+              Center(
+                child: Text('Another Tab Content'),
+              ),
+            ],
+          ),
         ),
-      ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
           showDialog(
@@ -58,10 +62,25 @@ class _DashViewState extends State<DashView> {
         style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey[900]),
         child: const Text('New diary entry'),
       ),
-      floatingActionButtonLocation:
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? FloatingActionButtonLocation.endFloat
-              : FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        bottomNavigationBar: BottomAppBar(
+          padding: EdgeInsets.zero,
+          color: Colors.grey[900],
+          child: TabBar(
+            indicator: BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.cyan, width: 2.0),
+              ),
+            ),
+            labelColor: Colors.cyan,
+            dividerColor: Colors.transparent,
+            tabs: const [
+              Tab(icon: FaIcon(FontAwesomeIcons.user, size: 25)),
+              Tab(icon: FaIcon(FontAwesomeIcons.calendarDay, size: 25)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

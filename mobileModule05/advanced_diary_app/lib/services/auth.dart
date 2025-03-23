@@ -24,7 +24,6 @@ class Auth {
   }
 
   static Future<void> sigOut() async {
-    await _firebaseAuth.signOut();
     if (currentUser != null) {
       final providers = currentUser?.providerData;
       if (providers != null &&
@@ -32,5 +31,6 @@ class Auth {
         await GoogleSignIn().disconnect();
       }
     }
+    await _firebaseAuth.signOut();
   }
 }
